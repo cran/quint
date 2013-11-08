@@ -1,0 +1,38 @@
+\name{summary.quint}
+\alias{summary.quint}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Summarizing Qualitative Interaction Tree Information
+}
+\description{
+Summary method for an object of class \code{quint}.
+}
+\usage{
+\method{summary}{quint}(object,...,digits=2)
+}
+\arguments{
+  \item{object}{
+a \code{quint} object. This can be the output of \code{\link{quint}}. 
+}
+  \item{\dots}{
+optional additional arguments.
+}
+  \item{digits}{
+specified number of decimal places (default is 2).
+}
+
+}
+\details{ This function is a method for the generic function summary for class \code{quint}. It extracts the following essential components from a \code{quint} object:
+1) Specification of the partitioning criterion; 2) Fit information; 3) Split information, and 4) Leaf information.
+}
+\examples{
+data(bcrp)
+formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+
+age+trext+comorbid+disopt1+uncomt1+negsoct1
+control1<-quint.control(maxl=5,Bootstrap=FALSE)
+quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1 )
+summary(quint1)
+}
+ 
+\keyword{ summary }
+

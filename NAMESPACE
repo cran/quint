@@ -1,0 +1,12 @@
+importFrom(stats, model.frame)
+
+importFrom(partykit, as.party,plot.party)
+
+import(Formula)
+importFrom(rpart,prune)
+
+export(quint,summary.quint,quint.control,prune.quint,plot.quint)
+exportClasses("quint")
+S3method(summary,quint)
+S3method(prune,quint)
+S3method(plot,quint)

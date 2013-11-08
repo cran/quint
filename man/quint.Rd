@@ -1,0 +1,86 @@
+\name{quint}
+\alias{quint}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Qualitative Interaction Trees 
+}
+\description{
+This is the core function of the package. It performs a subgroup analysis by QUalitative INteraction Trees (QUINT; Dusseldorp & Van Mechelen, 2013) and is suitable for data from a two-arm randomized controlled trial. Ingredients of the analysis are: one continuous outcome variable \eqn{Y} (the effect variable), one dichotomous treatment variable \eqn{T} (indicating two treatment conditions, A and B), and several background characteristics \eqn{X1,\dots,XJ}. These background characteristics are measured at baseline and may be continuous, ordinal, or dichotomous. They are used to identify the following subgroups (i.e., partition classes): Subgroup 1: Those patients for whom Treatment A is better than Treatment B(P1); Subgroup 2: Those for whom Treatment B is better than Treatment A(P2), and Subgroup 3: Those for whom it does not make any difference (P3).
+
+}
+\usage{
+quint(formula, data, control = NULL)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{formula}{
+a description of the model to be fit. The format is \code{Y ~ T | X1 + \dots + XJ}, where the variable before the | represents the dichotomous treatment variable \eqn{T} and the variables after the | are the baseline characteristics used for partitioning. If the data are in the order \code{Y, T, X1,\dots,XJ}, no formula is needed. The lay-out of this formula is based on Zeileis & Croissant (2010).
+}
+  \item{data}{
+a dataframe containing the variables in the model.
+}
+  \item{control}{
+a list with control parameters as returned by \code{\link{quint.control}}.
+}
+}
+\details{The method QUINT uses a sequential partitioning algorithm. The algorithm starts with a tree consisting of a single node, that is, the root node containing all patients. Next, it follows a stepwise binary splitting procedure. This procedure implies that in each step a node, a baseline characteristic, a split of that characteristic, and an assignment of the leaves of the current tree to partition classes 1, 2, and 3 (P1 to P3) are chosen that maximize the partitioning criterion. Note that this means that after each split, all leaves of the tree are re-assigned afresh to the partition classes P1, P2, and P3. 
+}
+\value{
+Returns an object of class \code{quint} with components:
+\item{call}{the call that created the object.}
+\item{crit}{the partitioning criterion used to grow the tree. The default is the Effect size criterion. Use crit="dm" for the Difference in means criterion.}
+\item{control}{the control parameters used in the analysis.}
+\item{fi}{the fit information of the final tree.}
+\item{si}{the split information of the final tree.}
+\item{li}{the leaf information of the final tree.}
+\item{data}{the data used to grow the tree.}
+\item{nind}{an \eqn{N} x \eqn{L} matrix indicating leaf membership.}
+\item{siboot}{an \eqn{L} x 9 x \eqn{B} array with split information for each bootstrap sample: 
+              C_boot = value of \eqn{C};
+              C_compdif = value of Difference in treatment outcome component;
+              checkdif = indicates if pooled Difference in treatment outcome component in test set (i.e., original sample) is positive, with  values: 0 = yes,1 = negative in P1, 2 = negative in P2, 3 = negative in P1 and P2; 
+              C_compcard = value of Cardinality component;checkcard = indicates if value of pooled cardinality in test set is zero, with values: 0 =no,1 = zero in P1, 2 = zero in P2, 3 = zero in P1 and P2; 
+              opt = value of optimism (C_boot\emph{-}C_orig).}
+\item{indexboot}{an \eqn{N} x \eqn{B} matrix indicating bootstrap sample membership.}
+}
+\references{
+Dusseldorp E. and Van Mechelen I. (2013). Qualitative interaction trees: a tool to identify qualitative treatment-subgroup interactions. \emph{Statistics in Medicine}, first online 6 Aug 2013. DOI: 10.1002/sim.5933.
+
+Zeileis A. and Croissant Y. (2010). Extended model formulas in R: Multiple parts and multiple responses. \emph{Journal of Statistical Software, 34(1)}, 1-13.
+}
+\seealso{
+\code{\link{summary.quint}}, \code{\link{quint.control}}, \code{\link{prune.quint}}, \code{\link{bcrp}} 
+}
+\examples{
+#EXAMPLE with data from the Breast Cancer Recovery Project
+data(bcrp)
+
+
+#Start with expliciting the model for quint
+#The outcome Y is a change score between timepoint 3 and timepoint 1
+#A positive Y value indicates an improvement in depression (i.e., a decrease)
+
+formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
+trext+comorbid+disopt1+uncomt1+negsoct1
+
+#Perform a quint analysis 
+#The BCRP data contain 3 conditions. Quint only works now for 2 conditions.
+#For the example, we disregard the control condition
+#To save computation time, we also adjust the control parameters
+
+set.seed(2)
+control1<-quint.control(maxl=5,B=2)
+quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1)
+
+#Inspect the main results of the analysis:
+summary(quint1)
+
+#Inspect the assignments of the patients to the leaves of the tree
+quint1$nind
+
+#plot the tree
+plot(quint1)
+}
+
+\keyword{ tree }
+\keyword{ cluster}
