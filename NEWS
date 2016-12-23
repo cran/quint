@@ -1,53 +1,59 @@
+Changes in QUINT Version 1.2-1 (2016-7-1)
+========================================
+* Fixed the bug in predict.quint(), now returns predicted objects
+of the correct length.
+
+
 Changes in QUINT Version 1.2 (2016-4-21)
 ========================================
 
 * quint() is now able to handle categorical variables as
 candidate splitting variables. The R class of these variables
 should be factor. The levels of the factof can be specified
-as numeric values or labels. 
+as numeric values or labels.
 
 * quint.validate() is a new function with which the bias (i.e.
-optimism) of a fitted (pruned) quint tree can be estimated. 
-The procedure is based on bootstrapping and makes use of 
-the treatment effects in the leaves of the tree. The function 
+optimism) of a fitted (pruned) quint tree can be estimated.
+The procedure is based on bootstrapping and makes use of
+the treatment effects in the leaves of the tree. The function
 returns the mean estimated optimism for either the effect size
 or the raw mean difference. It also returns the leaf info data
 frame identical to the leaf info of the quint object used as
-input, with the addition of an extra column. This extra column 
+input, with the addition of an extra column. This extra column
 contains the bias-corrected treatment effect values for the leaf
 with the largest and the smallest (i.e., largest negative)
 treatment effect. An extended list of output is possible.
 
-* predict.quint() is a new S3 function to make 
-predictions with new data using a fitted quint tree 
-object. Three types of predictions are possible, to be 
-specified within the "type" argument of the function. 
-If "type='class'" the treatment subgroup classes are predicted 
-for every patient individually. If "type='matrix'" a matrix 
-with the positions of every patient within the fitted tree 
-is given (i.e., the leaf number and corresponding node). 
-If "type='li'" a leaf info data frame similar to quint$li is 
-returned with treatment effect values (d or diff) newly 
-computed from the input data set. 
+* predict.quint() is a new S3 function to make
+predictions with new data using a fitted quint tree
+object. Three types of predictions are possible, to be
+specified within the "type" argument of the function.
+If "type='class'" the treatment subgroup classes are predicted
+for every patient individually. If "type='matrix'" a matrix
+with the positions of every patient within the fitted tree
+is given (i.e., the leaf number and corresponding node).
+If "type='li'" a leaf info data frame similar to quint$li is
+returned with treatment effect values (d or diff) newly
+computed from the input data set.
 
-* prune.quint() has been adapted such that it can handle 
+* prune.quint() has been adapted such that it can handle
 categorical variables.
 
 * plot.quint() has been adapted such that it can make and
-display categorical splits. 
+display categorical splits.
 
 * the leaf info output of a quint object (quint$li) now
 displays either the effect size (d) with its standard error (se)
-or the raw mean difference (diff) with its standard error. 
+or the raw mean difference (diff) with its standard error.
 This depends on whether "es" or "dm" is specified as treatment
 effect.
 
-* the abovementioned change for the leaf info output has 
+* the abovementioned change for the leaf info output has
 also been implemented in the summary.quint() output.
 
 * the split info output of a quint object (quint$si) has an extra
-column. The fourth column contains the numerical split points. 
-These are also produced for nominal variables. A fiftth 
+column. The fourth column contains the numerical split points.
+These are also produced for nominal variables. A fiftth
 column has been added to display the 'true' split points,
 such that the levels of a categorical variable that comprise a
 split point are pasted after one another.
@@ -55,19 +61,19 @@ split point are pasted after one another.
 * the abovementioned change for the split info output has
 also been implemented in the summary.quint() output. Furthermore
 an additional check has been implemented for quint$si to avoid
-conflicts with the dimension size of quint$si objects made 
+conflicts with the dimension size of quint$si objects made
 with version 1.0.
 
-* a bug regarding a sub function within quint() 
-has been solved. This sub function made use of the Gamma(x) 
+* a bug regarding a sub function within quint()
+has been solved. This sub function made use of the Gamma(x)
 function. Gamma(x) cannot handle large numbers; as a
-consequence a warning was given and in the leaf output the 
+consequence a warning was given and in the leaf output the
 standard error values for the effect size (d) values were NA.
 The implemented solution regards an approximation for computing
 the standard error to be used when the sample sizes exceed
 a certain value.
 
-* quint.control() can now return an error when the criterion 
+* quint.control() can now return an error when the criterion
 is misspecified (i.e., not "es" or "dm").
 
 * The documentation has been updated. Help files for

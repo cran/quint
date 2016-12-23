@@ -37,7 +37,6 @@ Cor Ninaber and Elise Dusseldorp
 \references{
 Torsten Hothorn and Achim Zeileis (2013). partykit: A Toolkit for
   Recursive Partytioning. R package version 0.1-5.
-  \url{http://CRAN.R-project.org/package=partykit}.
 }
 \seealso{
 \code{\link{quint}},\code{\link{quint.control}},\code{\link{bcrp}}

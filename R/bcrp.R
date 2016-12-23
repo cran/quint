@@ -23,8 +23,8 @@
 #'   \item{\code{trext}}{treatment extensiveness index: lumpectomy without
 #'     or with one form of adjuvant therapy (radiation or chemo) [-1.77],
 #'     lumpectomy with radiation and chemotherapy [0.26], mastectomy without
-#'     or with lumpectopy, and without or with one form of adjuvant therapy [0.56],
-#'     mastectomy without or with lumpectopy, and radiation and chemotherapy [2.59]. }
+#'     or with lumpectomy, and without or with one form of adjuvant therapy [0.56],
+#'     mastectomy without or with lumpectomy, and radiation and chemotherapy [2.59]. }
 #'   \item{\code{cond}}{experimental condition: nutrition [1], education [2] or standard care [3].}
 #'  }
 #'
