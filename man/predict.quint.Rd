@@ -57,4 +57,3 @@ predquint1
 \seealso{
 \code{\link{quint}}, \code{\link{prune.quint}}
 }
-

@@ -60,4 +60,3 @@ Breiman L., Friedman J.H., Olshen R.A. and Stone C.J. (1984).
 \code{\link{quint.control}}, \code{\link{quint}}
 }
 \keyword{tree}
-

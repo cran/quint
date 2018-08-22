@@ -42,9 +42,6 @@ not make any difference (P3).
 
   The core function of the package is \code{\link{quint}}.
 }
-\author{
-Maintainer: Elise Dusseldorp <elise.dusseldorp@fsw.leidenuniv.nl>
-}
 \references{
 Dusseldorp E., Doove L. and Van Mechelen, I. Quint: An
   R package for the identification of subgroups of clients who differ in which treatment
@@ -64,5 +61,7 @@ Dusseldorp E., Doove L. and Van Mechelen, I. Quint: An
 \code{\link{quint}},\code{\link{summary.quint}},\code{\link{quint.control}},
   \code{\link{prune.quint}},\code{\link{predict.quint}},\code{\link{quint.validate}}
 }
+\author{
+Maintainer: Elise Dusseldorp <elise.dusseldorp@fsw.leidenuniv.nl>
+}
 \keyword{package}
-

@@ -71,7 +71,7 @@ quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1) #Grow a QUIN
 prquint1<-prune(quint1) #Prune tree to optimal size
 
 set.seed(3)
-valquint1<-quint.validate(prquint1, B=10) #estimate the optimism by bootstrapping 10 times
+valquint1<-quint.validate(prquint1, B=5) #estimate the optimism by bootstrapping 5 times
 valquint1
 
 }
@@ -83,4 +83,3 @@ Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
 \seealso{
 \code{\link{quint}}, \code{\link{prune.quint}}, \code{\link{quint.control}}
 }
-

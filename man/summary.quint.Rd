@@ -35,4 +35,3 @@ summary(quint1)
 
 }
 \keyword{summary}
-

@@ -75,8 +75,13 @@ predict.quint<-function(object,newdata,type='class',...){
       Gmat<-cbind(Gmat[,-o],Gmatch)
     }
   }
+  #check number of missings
+  nmis<-sum(is.na(ytxna))
+  index <- c(1:dim(ytxna)[1])
+  if(nmis!= 0){
   naindex <- which(is.na(ytxna)) # which subjects have NA on required variables
   index <- c(1:dim(ytxna)[1])[-naindex] # which subjects have no NA on required variables
+  }
 
   if(type=="matrix") {
     nodemat <- matrix(0, nrow=dim(newdata)[1], ncol=2)
@@ -84,18 +89,22 @@ predict.quint<-function(object,newdata,type='class',...){
       nodemat[index[which(Gmat[,i]==1)],1] <- which(object$li[,1]==nnum[i])
       nodemat[index[which(Gmat[,i]==1)],2] <- nnum[i]
     }
+    if(nmis!= 0){
     nodemat[naindex,c(1:2)] <- NA
+    }
     colnames(nodemat) <- c("Leaf", "Node")
     #rownames(nodemat) <- as.numeric(rownames(ytxna)) # give subjects numbers of original dataset
     return(nodemat)
   }
 
   if(type=="class"){
-    classmat <- vector(mode="character", length=dim(newdata)[1])
-    for(i in 1:length(nnum)) {
+    classmat <- numeric(dim(newdata)[1])
+       for(i in 1:length(nnum)) {
       classmat[index[which(Gmat[,i]==1)]] <- object$li[which(nnum[i]==object$li[,1]),10]
     }
+    if(nmis!= 0){
     classmat[naindex] <- NA
+    }
     names(classmat) <- 1:dim(newdata)[1]
     #names(classmat) <- as.numeric(rownames(ytxna)) # give subjects numbers of original dataset (alternative to 1:dim(newdat)[1])
     return(classmat)

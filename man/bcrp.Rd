@@ -60,4 +60,3 @@ If you use these data, please refer to:
    \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
 }
 \keyword{datasets}
-

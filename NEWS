@@ -1,3 +1,9 @@
+Changes in QUINT Version 1.2-2 (2018-8-22)
+========================================
+* Fixed the bug in predict.quint(), now returns predicted objects
+correctly when there are no missing values.
+
+
 Changes in QUINT Version 1.2-1 (2016-7-1)
 ========================================
 * Fixed the bug in predict.quint(), now returns predicted objects

@@ -31,9 +31,6 @@ The plot function uses the plot method from the package \pkg{partykit} of Hothor
 For categorical variables we recommend to use short names for levels to avoid overlapping
 labels at split points.
 }
-\author{
-Cor Ninaber and Elise Dusseldorp
-}
 \references{
 Torsten Hothorn and Achim Zeileis (2013). partykit: A Toolkit for
   Recursive Partytioning. R package version 0.1-5.
@@ -41,6 +38,8 @@ Torsten Hothorn and Achim Zeileis (2013). partykit: A Toolkit for
 \seealso{
 \code{\link{quint}},\code{\link{quint.control}},\code{\link{bcrp}}
 }
+\author{
+Cor Ninaber and Elise Dusseldorp
+}
 \keyword{as.party}
 \keyword{plot}
-
