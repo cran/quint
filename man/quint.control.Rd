@@ -4,8 +4,8 @@
 \alias{quint.control}
 \title{Control Parameters for QUINT Algorithm}
 \usage{
-quint.control(crit = "es", maxl = 10, a1 = NULL, a2 = NULL,
-  w = NULL, Bootstrap = TRUE, B = 25, dmin = 0.3)
+quint.control(crit = "es", maxl = 10, a1 = NULL, a2 = NULL, w = NULL,
+  Bootstrap = TRUE, B = 25, dmin = 0.3)
 }
 \arguments{
 \item{crit}{the type of difference in treatment outcome used in the
@@ -27,7 +27,7 @@ is \eqn{1/ log(1+IQR(Y))}. If crit = "es", the default value of \eqn{w1} is
 \item{Bootstrap}{whether the bias-corrected bootstrap procedure should
 be performed. The default is TRUE.}
 
-\item{B}{the number of bootstrap samples to be drawn. The default is 25.}
+\item{B}{the number of bootstrap samples to be drawn. The default is 25. We recommend a number of bootstraps of at least 25.}
 
 \item{dmin}{the minimum absolute standardized mean difference in
 treatment outcome in each of the two leaves after the first split
@@ -54,8 +54,8 @@ control3<-quint.control(crit="dm",Bootstrap=FALSE,maxl=3)
 quint3<-quint(formula1, data= subset(bcrp,cond<3),control=control3)
 summary(quint3)
 
-#Set number of bootstrap samples at 10
-control4<-quint.control(B=10)
+#Set number of bootstrap samples at 30
+control4<-quint.control(B=30)
 
 #Set minimal sample size in each treatment group at 5
 control5<-quint.control(a1=5,a2=5)

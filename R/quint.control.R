@@ -17,7 +17,7 @@
 #'   \eqn{1/log(1+3)}. The default of \eqn{w2} is \eqn{1/log(0.50N)}.
 #' @param Bootstrap whether the bias-corrected bootstrap procedure should
 #'   be performed. The default is TRUE.
-#' @param B the number of bootstrap samples to be drawn. The default is 25.
+#' @param B the number of bootstrap samples to be drawn. The default is 25. We recommend a number of bootstraps of at least 25.
 #' @param dmin the minimum absolute standardized mean difference in
 #'  treatment outcome in each of the two leaves after the first split
 #'  of the tree. This value is used to check whether a qualitative interaction
@@ -45,8 +45,8 @@
 #' quint3<-quint(formula1, data= subset(bcrp,cond<3),control=control3)
 #' summary(quint3)
 #'
-#' #Set number of bootstrap samples at 10
-#' control4<-quint.control(B=10)
+#' #Set number of bootstrap samples at 30
+#' control4<-quint.control(B=30)
 #'
 #' #Set minimal sample size in each treatment group at 5
 #' control5<-quint.control(a1=5,a2=5)

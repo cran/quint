@@ -28,7 +28,7 @@
 #'   \item{\code{cond}}{experimental condition: nutrition [1], education [2] or standard care [3].}
 #'  }
 #'
-#' @details IMPORANT: for questions about these data contact Elise Dusseldorp: elise.dusseldorp@fsw.leidenuniv.nl.
+#' @details IMPORTANT: for questions about these data contact Elise Dusseldorp: elise.dusseldorp@fsw.leidenuniv.nl.
 #' @source The authors thank M.F. Scheier for making his data available.
 #' @references If you use these data, please refer to:
 #'    Scheier M.F., Helgeson V.S., Schulz R., et al. (2007).

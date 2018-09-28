@@ -39,7 +39,7 @@ They were measured before and after treatment. These data contain the baseline
 measurement and the 9-month follow-up.
 }
 \details{
-IMPORANT: for questions about these data contact Elise Dusseldorp: elise.dusseldorp@fsw.leidenuniv.nl.
+IMPORTANT: for questions about these data contact Elise Dusseldorp: elise.dusseldorp@fsw.leidenuniv.nl.
 }
 \references{
 If you use these data, please refer to:

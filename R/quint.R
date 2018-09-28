@@ -66,6 +66,9 @@
 #'
 #'   Zeileis A. and Croissant Y. (2010). Extended model formulas in R: Multiple parts and
 #'   multiple responses. \emph{Journal of Statistical Software, 34(1)}, 1-13.
+#'   
+#'   van der Geest M. (2018). Decision Trees: Amelioration, Simulation, Application. Can be found in:
+#'  https://openaccess.leidenuniv.nl/handle/1887/65935
 #'
 #' @seealso \code{\link{summary.quint}}, \code{\link{quint.control}},
 #'   \code{\link{prune.quint}}, \code{\link{bcrp}}
@@ -85,17 +88,15 @@
 #' #To save computation time, we also adjust the control parameters
 #'
 #' set.seed(2)
-#' control1<-quint.control(maxl=5,B=2)
+#' control1<-quint.control(maxl=5,B=2) #The recommended number of bootstraps is 25.
 #' quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1)
+#' quint1pr<-prune(quint1)
 #'
 #' #Inspect the main results of the analysis:
-#' summary(quint1)
-#'
-#' #Inspect the assignments of the patients to the leaves of the tree
-#' quint1$nind
+#' summary(quint1pr)
 #'
 #' #plot the tree
-#' plot(quint1)
+#' plot(quint1pr)
 #'
 #' @keywords tree
 #' @keywords cluster
@@ -224,13 +225,35 @@ quint<- function(formula, data, control=NULL){
     endinf <- matrix(0, ncol=8, nrow=2)
   }
 
-  ##Check the qualitative interaction condition:  Cohen's d in the leafs after the first split >=dmin
-  qualint <- "Present"
-  if(abs(endinf[1,7])<control$dmin | abs(endinf[2,7])<control$dmin) {
-    L <- maxl
-    stop("The qualitative interaction condition is not satified: One or both of the effect sizes are lower than absolute value",control$dmin,". There is no clear qualtitative interaction present in the data.","\n")
-  }
+#  ##Check the qualitative interaction condition:  Cohen's d in the leafs after the first split >=dmin
+#  qualint <- "Present"
+#  if(abs(endinf[1,7])<control$dmin | abs(endinf[2,7])<control$dmin) {
+#    L <- maxl
+#    stop("The qualitative interaction condition is not satified: One or both of the effect sizes are lower than absolute value",control$dmin,". There is no clear qualtitative interaction present in the data.","\n")
+#  }
 
+  
+# Return an object of Length 1 when the criterion C is 0.  
+  
+  if (cmax == 0){
+    print("Quint method cannot be performed. There is no qualitative treatment-subgroup interaction.")
+    
+    Gmat<-as.matrix(rep(1,dim(dat)[1]))
+    colnames(Gmat)<-c("1")
+    leaf.info<-ctmat(Gmat,y=dat[,1],tr=dat[,2],crit=crit)
+    leaf.info<-leaf.info[1,]
+    class_quint<-ifelse(leaf.info[7]>=0,1,2)
+    node<-0
+    leaf.info<-as.data.frame(matrix(c(node,leaf.info,class_quint),nrow = 1))
+    colnames(leaf.info) <- c("node","#(T=1)", "meanY|T=1", "SD|T=1","#(T=2)", "meanY|T=2","SD|T=2","d","se","class")
+    rownames(leaf.info) <- c("Leaf 1")
+    object <- list(call = match.call(), crit = crit, control = control,
+                   indexboot = NULL, data = dat, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
+                   siboot = NULL, pruned=FALSE)
+    class(object)<-"quint"
+    return(object)
+  }else{
+  
   ##Perform bias-corrected bootstrapping for the first split:
   if(control$Boot==TRUE&cmax!=0){
     #initiate bootstrap with stratification on treatment groups:
@@ -388,7 +411,10 @@ quint<- function(formula, data, control=NULL){
     #raw mean and sd:
     opt <- sapply(1:(Lfinal-1), function(kk,allresultsboot){mean(allresultsboot[kk,9,],na.rm=TRUE)}, allresultsboot=allresultsboot)
     se_opt <- sapply(1:(Lfinal-1), function(kk,allresultsboot){sd(allresultsboot[kk,9,],na.rm=TRUE)/sqrt(sum(!is.na(allresultsboot[kk,9,])))}, allresultsboot=allresultsboot)
-
+    if(sum(is.na(se_opt))>0){
+      stop("The standard error obtained through bootstrap cannot be computed. Consider increasing the number of bootstraps (a minimum of 25 is recommended).")
+    }
+    
     if(Lfinal==2){allresults <- c(allresults[1:5], allresults[5]-opt,opt, se_opt, allresults[6:7])
     allresults <- data.frame(t(allresults))
     }
@@ -424,7 +450,7 @@ quint<- function(formula, data, control=NULL){
 
   if(control$Boot==FALSE){
     object <- list(call=match.call(), crit=crit, control=control,
-                   data=dat, si=si, fi=allresults[,c(1:2,6:8)], li=endinf, nind=Gmat[,index])
+                   data=dat, si=si, fi=allresults[,c(1:2,6:8)], li=endinf, nind=Gmat[,index], pruned=FALSE)
   }
   if(control$Boot==TRUE){
     nam <- c("parentnode", "splittingvar", "splitpoint",
@@ -433,8 +459,9 @@ quint<- function(formula, data, control=NULL){
     dimnames(allresultsboot) <- list(NULL, nam, NULL)
     object <- list(call = match.call(), crit = crit, control = control,
                    indexboot = indexboot, data = dat, si = si, fi = allresults[, c(1:2, 6:11)], li = endinf, nind = Gmat[, index],
-                   siboot = allresultsboot)                                               #11
+                   siboot = allresultsboot, pruned=FALSE)                                               #11
   }
   class(object) <- "quint"
   return(object)
+}
 }

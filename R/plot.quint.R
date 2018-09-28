@@ -36,10 +36,15 @@
 #'
 #' @export
 plot.quint <- function(x, digits=2,...){
+  if(is.null(x$si)){
+    warning("plot.quint() does not work with quint objects without splitting information (si) ")
+    print("The tree only contains the root node, for more information about the tree use the summary function")
+  }else{
   #x is an object of class "quint"
   x$si[,4] <- round(x$si[,4],digits=digits)
   party.quint <- as.party(x)
   plot(party.quint, inner_panel= node_quint, terminal_panel=terminal_quint, ...)
   return(invisible(party.quint))
+  }
 }
 

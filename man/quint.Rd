@@ -83,17 +83,15 @@ formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
 #To save computation time, we also adjust the control parameters
 
 set.seed(2)
-control1<-quint.control(maxl=5,B=2)
+control1<-quint.control(maxl=5,B=2) #The recommended number of bootstraps is 25.
 quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1)
+quint1pr<-prune(quint1)
 
 #Inspect the main results of the analysis:
-summary(quint1)
-
-#Inspect the assignments of the patients to the leaves of the tree
-quint1$nind
+summary(quint1pr)
 
 #plot the tree
-plot(quint1)
+plot(quint1pr)
 
 }
 \references{
@@ -108,6 +106,9 @@ Dusseldorp E., Doove L. and Van Mechelen I. Quint: An
 
   Zeileis A. and Croissant Y. (2010). Extended model formulas in R: Multiple parts and
   multiple responses. \emph{Journal of Statistical Software, 34(1)}, 1-13.
+  
+  van der Geest M. (2018). Decision Trees: Amelioration, Simulation, Application. Can be found in:
+ https://openaccess.leidenuniv.nl/handle/1887/65935
 }
 \seealso{
 \code{\link{summary.quint}}, \code{\link{quint.control}},

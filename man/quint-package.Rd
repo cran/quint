@@ -39,6 +39,10 @@ not make any difference (P3).
   specified. Furthermore a predict function \code{predict.quint} is newly included in this
   package. The final new feature is a validate function \code{quint.validate} for estimating
   the bias (i.e., optimism) of a grown QUINT tree.
+  
+  From version 2.0 onwards the qualitative treatment-subgroup interaction is checked during the prune
+  of the tree and not at the begining of QUINT. Furthermore, it is possible to obtain outcomes 
+  from the summary and predict functions when the tree only contains the root node.
 
   The core function of the package is \code{\link{quint}}.
 }

@@ -52,7 +52,7 @@ ctmat<-function(Gmat,y,tr,crit){
     ifelse(sum(Gmat[, kk] == 1 & tr == 2) == 0, NA, mean(y[Gmat[,kk] == 1 & tr == 2]))}, Gmat = Gmat, y = y, tr = tr)
   t2mat[, 2] <- sapply(1:rownum, function(kk, Gmat, y, tr) {
     ifelse(sum(Gmat[, kk] == 1 & tr == 2) == 0, NA, sqrt(var(y[Gmat[,kk] == 1 & tr == 2])))}, Gmat = Gmat, y = y, tr = tr)
-  tmat <- cbind(apply(Gmat[tr == 1, ], 2, sum), t1mat, apply(Gmat[tr == 2, ], 2, sum), t2mat)
+  tmat <- cbind(apply(as.matrix(Gmat[tr == 1, ]), 2, sum), t1mat, apply(as.matrix(Gmat[tr == 2, ]), 2, sum), t2mat)
 
   if(crit=="es") {
     es <- sapply(1:rownum, function(kk, tmat) {
