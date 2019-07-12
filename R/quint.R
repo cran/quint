@@ -38,8 +38,8 @@
 #'  \item{control}{the control parameters used in the analysis.}
 #'  \item{fi}{the fit information of the final tree.}
 #'  \item{si}{the split information of the final tree.}
-#'  \item{li}{the leaf information of the final tree. Treatment A is denoted with T=1, and treatment
-#'    B is denoted with T=2. Can display either the output for Difference
+#'  \item{li}{the leaf information of the final tree. Treatment A is denoted with \eqn{T}=1, and treatment
+#'    B is denoted with \eqn{T}=2. Can display either the output for Difference
 #'    in Means (crit='dm') or Cohen's \emph{d} effect size (crit='es').}
 #'  \item{data}{the data used to grow the tree.}
 #'  \item{nind}{an \eqn{N} x \eqn{L} matrix indicating leaf membership.}
@@ -55,18 +55,18 @@
 #'    opt = value of optimism (C_boot\emph{-}C_orig).}
 #'  \item{indexboot}{an \eqn{N} x \eqn{B} matrix indicating bootstrap sample membership.}
 #'
-#' @references Dusseldorp E., Doove L. and Van Mechelen I. Quint: An
-#'   R package for the identification of subgroups of clients who differ in which treatment
-#'   alternative is best for them. \emph{Behavior research methods (ahead-of-print)}, 1-14.
-#'   DOI: 10.3758/s13428-015-0594-z.
+#' @references Dusseldorp, E., Doove, L., & Van Mechelen, I. (2016). Quint:
+#'   An R package for the identification of subgroups of clients who differ in
+#'   which treatment alternative is best for them. \emph{Behavior Research Methods,
+#'   48}(2), 650-663. DOI 10.3758/s13428-015-0594-z
 #'
 #'   Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
 #'   a tool to identify qualitative treatment-subgroup interactions.
-#'   \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
+#'   \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 #'
 #'   Zeileis A. and Croissant Y. (2010). Extended model formulas in R: Multiple parts and
-#'   multiple responses. \emph{Journal of Statistical Software, 34(1)}, 1-13.
-#'   
+#'   multiple responses. \emph{Journal of Statistical Software, 34}(1), 1-13.
+#'
 #'   van der Geest M. (2018). Decision Trees: Amelioration, Simulation, Application. Can be found in:
 #'  https://openaccess.leidenuniv.nl/handle/1887/65935
 #'
@@ -157,11 +157,18 @@ quint<- function(formula, data, control=NULL){
 
   #if no control argument was specified ,use default parameter values
   #Default parameters a1 and a2 for treatment cardinality condition:
-  if(is.null(parvec)){
-    a1 <- round(sum(tr==1)/10)
-    a2 <- round(sum(tr==2)/10)
+  if(length(parvec)<2){
+    if(length(parvec)==1){
+      warning("a1 or a2 is NULL. Default values have been used for both variables.")
+    }
+    a1 <- max(2,round(sum(tr==1)/10))
+    a2 <- max(2,round(sum(tr==2)/10))
     parvec <- c(a1, a2)
     control$parvec <- parvec
+  }else{
+    if(parvec[1]<2 || parvec[2]<2){
+      warning("a1 and a2 should be grater or equal than 2.")
+    }
   }
 
   if(is.null(w)){
@@ -232,12 +239,12 @@ quint<- function(formula, data, control=NULL){
 #    stop("The qualitative interaction condition is not satified: One or both of the effect sizes are lower than absolute value",control$dmin,". There is no clear qualtitative interaction present in the data.","\n")
 #  }
 
-  
-# Return an object of Length 1 when the criterion C is 0.  
-  
+
+# Return an object of Length 1 when the criterion C is 0.
+
   if (cmax == 0){
     print("Quint method cannot be performed. There is no qualitative treatment-subgroup interaction.")
-    
+
     Gmat<-as.matrix(rep(1,dim(dat)[1]))
     colnames(Gmat)<-c("1")
     leaf.info<-ctmat(Gmat,y=dat[,1],tr=dat[,2],crit=crit)
@@ -253,7 +260,7 @@ quint<- function(formula, data, control=NULL){
     class(object)<-"quint"
     return(object)
   }else{
-  
+
   ##Perform bias-corrected bootstrapping for the first split:
   if(control$Boot==TRUE&cmax!=0){
     #initiate bootstrap with stratification on treatment groups:
@@ -414,7 +421,7 @@ quint<- function(formula, data, control=NULL){
     if(sum(is.na(se_opt))>0){
       stop("The standard error obtained through bootstrap cannot be computed. Consider increasing the number of bootstraps (a minimum of 25 is recommended).")
     }
-    
+
     if(Lfinal==2){allresults <- c(allresults[1:5], allresults[5]-opt,opt, se_opt, allresults[6:7])
     allresults <- data.frame(t(allresults))
     }

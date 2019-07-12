@@ -2,6 +2,10 @@
 #'
 #' Determines the optimally pruned size of the tree by applying the one
 #' standard error rule to the results from the bias-corrected bootstrap procedure.
+#' At the end of the pruning procedure, it is checked whether the pruned tree satisfies
+#' the qualitative interaction condition. If this condition is not met, it is concluded
+#' that there is no qualitative tratment-subgroup interaction and a tree containing
+#' only the root node is returned.
 #'
 #' @param tree fitted tree of the class \code{quint}.
 #' @param pp pruning parameter, the constant (\eqn{c}) to be used in the \eqn{c*}standard
@@ -26,7 +30,7 @@
 #'
 #'   Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
 #'   a tool to identify qualitative treatment-subgroup interactions.
-#'   \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
+#'   \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 #'
 #'   LeBlanc M. and Crowley J. (1993). Survival trees by goodness of split.
 #'   \emph{Journal of the American Statistical Association, 88,} 457-467.
@@ -34,7 +38,7 @@
 #' @seealso \code{\link{quint.control}}, \code{\link{quint}}
 #'
 #' @examples data(bcrp)
-#' formula2 <- I(cesdt1-cesdt3)~cond |age+trext++uncomt1+ disopt1+negsoct1
+#' formula2 <- I(cesdt1-cesdt3)~cond |age+trext+uncomt1+disopt1+negsoct1
 #' #Adjust the control parameters only to save computation time in the example;
 #' #The default control parameters are preferred
 #' control2 <- quint.control(maxl=5,B=2)
@@ -42,7 +46,7 @@
 #' quint2 <- quint(formula2, data= subset(bcrp,cond<3),control=control2)
 #' quint2pr <- prune(quint2)
 #' summary(quint2pr)
-#' 
+#'
 #' @keywords tree
 #'
 #' @importFrom rpart prune
@@ -57,11 +61,11 @@ prune.quint <- function(tree,pp=1,...){
                      siboot = object$siboot, pruned=TRUE)
     class(besttree) <- "quint"
     return(besttree)
-    
+
   } else {
 
     #pp=pruning parameter
-    if(names(object$fi[4])=="Difcomponent"){
+    if(names(object$fi)[4]%in%c("Difcomponent","compdif")){
       stop("Pruning is not possible; The quint object lacks estimates of the biascorrected
            criterion. Grow again a large tree using the bootstrap procedure." )}
 
@@ -83,7 +87,7 @@ prune.quint <- function(tree,pp=1,...){
     if(con$crit=="es"){  # criterium is es
       if( ( any(abs(besttree$li$d[besttree$li$class==1]) >= con$dmin) &
           any(abs(besttree$li$d[besttree$li$class==2]) >= con$dmin) ) == FALSE) {
-        
+
         Gmat<-as.matrix(rep(1,dim(object$dat)[1]))
         colnames(Gmat)<-c("1")
         leaf.info<-ctmat(Gmat,y=object$dat[,1],tr=object$dat[,2],crit=object$crit)

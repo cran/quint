@@ -18,8 +18,8 @@
 #' @details \tabular{ll}{
 #'   Package: \tab quint\cr
 #'   Type: \tab Package\cr
-#'   Version: \tab 1.2\cr
-#'   Date: \tab 2016-22-04\cr
+#'   Version: \tab 2.0.1\cr
+#'   Date: \tab 2019-10-07\cr
 #'   License: \tab GPL\cr
 #' }
 #'
@@ -33,22 +33,22 @@
 #'   specified. Furthermore a predict function \code{predict.quint} is newly included in this
 #'   package. The final new feature is a validate function \code{quint.validate} for estimating
 #'   the bias (i.e., optimism) of a grown QUINT tree.
-#'   
+#'
 #'   From version 2.0 onwards the qualitative treatment-subgroup interaction is checked during the prune
-#'   of the tree and not at the begining of QUINT. Furthermore, it is possible to obtain outcomes 
+#'   of the tree and not at the begining of QUINT. Furthermore, it is possible to obtain outcomes
 #'   from the summary and predict functions when the tree only contains the root node.
 #'
 #'   The core function of the package is \code{\link{quint}}.
 #'
 #' @author Maintainer: Elise Dusseldorp <elise.dusseldorp@fsw.leidenuniv.nl>
-#' @references Dusseldorp E., Doove L. and Van Mechelen, I. Quint: An
-#'   R package for the identification of subgroups of clients who differ in which treatment
-#'   alternative is best for them. \emph{Behavior research methods (ahead-of-print)}, 1-14.
-#'   DOI: 10.3758/s13428-015-0594-z.
+#' @references Dusseldorp, E., Doove, L., & Van Mechelen, I. (2016). Quint:
+#'   An R package for the identification of subgroups of clients who differ in
+#'   which treatment alternative is best for them. \emph{Behavior Research Methods,
+#'   48}(2), 650-663. DOI 10.3758/s13428-015-0594-z
 #'
 #'   Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction
 #'   trees: a tool to identify qualitative treatment-subgroup interactions.
-#'   \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
+#'   \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 #'
 #'   Scheier M.F., Helgeson V.S., Schulz R., et al.(2007). Moderators of interventions
 #'   designed to enhance physical and psychological functioning among younger women

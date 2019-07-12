@@ -1,3 +1,15 @@
+Changes in QUINT Version 2.0-1 (2019-7-10)
+========================================
+* A vignette has been included.
+* A small bug has been fixed in prune.quint.
+* quint.validate is renewed. Bootstraps resulting in trees trees containing only the root node are not considered in the validation function. The total number of bootstraps used in the validation procedure is returned as $finalBootstraps.
+* nodeinfo.R has been modified by introducing lgamma in the computation of the effect size. This allow us not to use approximations for this computation.
+* quint.control includes new warnings in case a1 or a2 are below 2.
+* quint.control includes a new description of the argument dmin.
+* quint includes new warnings in case a1 or a2 are below 2. Modify the default values for a1 and a2 so that the minimum values are never below 2.
+* Help files are modified. Typos are corrected, references are updated and new information is included.
+
+
 Changes in QUINT Version 2.0-0 (2018-9-28)
 ========================================
 * The functions quint() and prune.quint() are renewed. We changed the first stopping criterion of the tree growing algorithm, that is, the qualitative interaction condition (see 2.4.2 in Dusseldorp & Van Mechelen, 2014). Instead of applying this condition after the first split, we now apply it at the end of the pruning algorithm. As a result, some interaction effects that were previously not detected due to this condition, can be detected now. When the condition is not met, we do not give an error message anymore, but return a tree with one node (the root node). More explanation is given in the master's thesis of Michelle van der Geest:"Decision Trees: Amelioration, Simulation, Application."; for a link to the thesis, see help file of quint().

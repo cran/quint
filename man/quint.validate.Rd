@@ -9,7 +9,7 @@ quint.validate(object, B = 10, allresults = FALSE)
 \arguments{
 \item{object}{a (pruned) QUINT tree object of class \code{quint}.}
 
-\item{B}{number of bootstrap samples. Default number is 10; for better accuracy B=1000
+\item{B}{number of bootstrap samples. Default number is 10; for better accuracy \eqn{B}=1000
 is recommended.}
 
 \item{allresults}{option to return an extended list of output. Default is set to FALSE.
@@ -60,25 +60,25 @@ In this procedure bootstrap trees are grown of the same leaf size as the (pruned
   The details of this validaton procedure are described in Appendix C of Dusseldorp & Van Mechelen (2014).
 }
 \examples{
-data(bcrp)
+\dontrun{data(bcrp)
 formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
   trext+comorbid+disopt1+uncomt1+negsoct1
 
 set.seed(10)
-control1<-quint.control(maxl=4,B=2)
+control1<-quint.control(maxl=5,B=2)
 quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1) #Grow a QUINT tree
 
 prquint1<-prune(quint1) #Prune tree to optimal size
 
 set.seed(3)
 valquint1<-quint.validate(prquint1, B = 5) #estimate the optimism by bootstrapping 5 times
-valquint1
+valquint1}
 
 }
 \references{
 Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
   a tool to identify qualitative treatment-subgroup interactions.
-  \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
+  \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 }
 \seealso{
 \code{\link{quint}}, \code{\link{prune.quint}}, \code{\link{quint.control}}

@@ -4,8 +4,8 @@
 \alias{quint.control}
 \title{Control Parameters for QUINT Algorithm}
 \usage{
-quint.control(crit = "es", maxl = 10, a1 = NULL, a2 = NULL, w = NULL,
-  Bootstrap = TRUE, B = 25, dmin = 0.3)
+quint.control(crit = "es", maxl = 10, a1 = NULL, a2 = NULL,
+  w = NULL, Bootstrap = TRUE, B = 25, dmin = 0.3)
 }
 \arguments{
 \item{crit}{the type of difference in treatment outcome used in the
@@ -14,15 +14,17 @@ partitioning criterion: "es" (Treatment effect sizes) or
 
 \item{maxl}{maximum number of leaves (\eqn{L}) of the tree. Default value is 10.}
 
-\item{a1}{the minimal sample size of Treatment A (\eqn{T=1}) in a leaf.}
+\item{a1}{the minimal sample size of Treatment A (\eqn{T}=1) in a leaf.
+If NULL, a1 is set to 1/10 of the sample size of the Treatment A group (assignment is done in the function quint). The minimum value is 2.}
 
-\item{a2}{the minimal sample size of Treatment B (\eqn{T=2}) in a leaf.}
+\item{a2}{the minimal sample size of Treatment B (\eqn{T}=2) in a leaf.
+If NULL, a2 is set to 1/10 of the sample size of the Treatment B group (assignment is done in the function quint). The minimum value is 2.}
 
 \item{w}{a vector with w1 and w2 representing the weights of, respectively,
 the Difference in treatment outcome component and the Cardinality component
 of the partitioning criterion. If crit = "dm", the default value of \eqn{w1}
-is \eqn{1/ log(1+IQR(Y))}. If crit = "es", the default value of \eqn{w1} is
-\eqn{1/log(1+3)}. The default of \eqn{w2} is \eqn{1/log(0.50N)}.}
+is 1/ \eqn{log}(1+IQR(Y)). If crit = "es", the default value of \eqn{w1} is
+1/\eqn{log}(1+3). The default of \eqn{w2} is 1/\eqn{log}(0.50\eqn{N}).}
 
 \item{Bootstrap}{whether the bias-corrected bootstrap procedure should
 be performed. The default is TRUE.}
@@ -30,8 +32,8 @@ be performed. The default is TRUE.}
 \item{B}{the number of bootstrap samples to be drawn. The default is 25. We recommend a number of bootstraps of at least 25.}
 
 \item{dmin}{the minimum absolute standardized mean difference in
-treatment outcome in each of the two leaves after the first split
-of the tree. This value is used to check whether a qualitative interaction
+treatment outcome in one of the leaves assigned to P1 and one of the leaves
+assigned to P2 of the pruned tree. This value is used to check whether a qualitative interaction
 is present in the data (the qualitative interaction condition); dmin controls
 the balance between Type I error and Type II error. The default value of dmin is 0.30.}
 }
@@ -62,14 +64,14 @@ control5<-quint.control(a1=5,a2=5)
 
 }
 \references{
-Dusseldorp E., Doove L. and Van Mechelen I. (2015). Quint: An
-  R package for the identification of subgroups of clients who differ in which treatment
-  alternative is best for them. \emph{Behavior research methods (ahead-of-print)}, 1-14.
-  DOI: 10.3758/s13428-015-0594-z.
+Dusseldorp, E., Doove, L., & Van Mechelen, I. (2016). Quint:
+  An R package for the identification of subgroups of clients who differ in
+  which treatment alternative is best for them. \emph{Behavior Research Methods,
+  48}(2), 650-663. DOI 10.3758/s13428-015-0594-z
 
   Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction
   trees: a tool to identify qualitative treatment-subgroup interactions.
-  \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
+  \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 }
 \seealso{
 \code{\link{quint}}

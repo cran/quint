@@ -34,10 +34,10 @@
 SimData_1
 }
 \description{
-Data generated sampling from a multivariate normal distribution using as parameters \eqn{samp = 150},
-\eqn{es = 1.0},\eqn{J = 20},\eqn{rho = 0} where samp is the sample size, es is the effect size, 
+Data generated sampling from a multivariate normal distribution using as parameters \eqn{samp} = 150,
+\eqn{es} = 1.0,\eqn{J} = 20,\eqn{rho} = 0 where samp is the sample size, es is the effect size,
 J is the number os covariates, and rho is the correlation between pairs of covariates.
-The treatment condition (A) is sampled from a binomial distribution with \eqn{p = 0.5} and
+The treatment condition (A) is sampled from a binomial distribution with \eqn{p} = 0.5 and
 the treatment outcome (Y) is obtained using the following regression \eqn{  Y = 1 + (.25 x X1) + (.25 x X2) - (.25 x X5]) - (es x ((A - 1) ^ 2)) + error}
 where the error is sampled from a standard normal distribution.
 }

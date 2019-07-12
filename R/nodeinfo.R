@@ -16,12 +16,18 @@ computeD<-function(n1, mean1,sd1,n2,mean2,sd2){
   mi <- (n1 + n2 - 2)
   ni <- (n1 * n2)/(n1 + n2)
   fac <- mi/((mi - 2) * ni)
-  cm <- 1 - (3/(4*mi - 1)) # approx of cm value instead of using gamma function for large sample sizes
-  var <- (2/mi) * (1 + dval^2/4)
-  if (mi <= 240) {
-    cm <- (gamma(mi/2))/(sqrt(mi/2) * gamma((mi - 1)/2))
-    var <- (fac * (1 + ni * dval^2)) - dval^2/cm^2
-  }
+
+  # Way to compute it up to version 2.0.0
+  # cm <- 1 - (3/(4*mi - 1)) # approx of cm value instead of using gamma function for large sample sizes
+  # var <- (2/mi) * (1 + dval^2/4)
+  # if (mi <= 240) {
+  #   cm <- (gamma(mi/2))/(sqrt(mi/2) * gamma((mi - 1)/2))
+  #   var <- (fac * (1 + ni * dval^2)) - dval^2/cm^2
+  # }
+
+  cm <- exp(lgamma(mi/2)-log(sqrt(mi/2))-lgamma((mi-1)/2))
+  var <- (fac * (1 + ni * dval^2)) - dval^2/cm^2
+
   sedval <- sqrt(var)
   # for crit = 'dm':
   diff <- mean1 - mean2

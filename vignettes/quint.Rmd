@@ -1,0 +1,104 @@
+---
+title: "Qualitative interaction trees"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Qualitative interaction trees}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Introduction 
+
+This package implements in R the Qualitative interaction trees method ( [Quint]( https://doi.org/10.1002/sim.5933) ).
+
+Quint looks for qualitative interactions in two-arm randomized controlled trials using
+binary regression trees. The algorithm detects subgroups of clients (patients) for 
+which one treatment is optimal while for other subgroups a different treatment is optimal. Also, subgroups that do not differ in treatment effect are detected. 
+The growth of the binary tree, and therefore, the identification of subgroups 
+of clients to a treatment, is defined in terms of pretreatment characteristics.
+
+# Further information
+
+For further explanation on the **Quint algorithm, R package, and a real example**, read the linked [article](https://doi.org/10.3758/s13428-015-0594-z).
+
+
+
+# Example on how to use Quint in R
+
+In this example we use data from a three-arm randomized controlled trial. The data 
+contain information on women with early-stage breast cancer who were assigned randomly to 
+different treatments. These treatments are a nutrition intervention,
+an education intervention, and standard care. 
+
+Quint is a method for two-arm randomized controlled trials. Therefore, in this example 
+we restrict ourselves to the first two treatments, that is, the nutrition intervention and
+the education intervention. 
+
+```{r echo=FALSE,include=FALSE}
+library(quint)
+```
+
+
+```{r echo=TRUE, include=TRUE}
+data(bcrp)
+head(bcrp)
+bcrp2arm<-subset(bcrp,cond<3)
+head(bcrp2arm)
+```
+
+As we have seen, the data contain the baseline measurements (t1) and the 9-month follow-up measurements (t3) and the pretreatment characteristics of the patients. For more information about the data, read the bcrp help file or ask for a summary.
+
+```{r echo=TRUE, include=TRUE}
+summary(bcrp2arm)
+```
+
+Once we have the data, we need to set up the control parameters of the algorithm of quint. In this case,
+we use the default values for the following arguments: type of treatment outcome difference used in the partitioning criterion (i.e., effect size), minimal sample size of patients assigned to treatment 1 and treatment 2 in each leaf (10% of the sample size of each treatment), the weights, and the minimum absolute standarized mean outcome difference (dmin = 0.3).
+
+On the other hand, we set the maximum number of leaves to 5 and we decided to perform the bias-corrected bootstrap procedure using 10 bootstrap samples (the default number is 25).
+
+```{r echo=TRUE, include=TRUE}
+control1 <- quint.control(maxl = 5,B = 10)
+```
+
+Also, we need to define the formula to be used in quint. This formula should contain
+first the outcome variable (in this example the difference between the outcome measure
+at the baseline and at the 9-month follow-up). Next to it, the variable indicating the treatment,
+and finally the pretreatment characteristics.
+
+```{r echo=TRUE, include=TRUE}
+formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+  age+trext+comorbid+disopt1+uncomt1+negsoct1
+```
+
+Now, we are ready to perform **quint**.
+
+```{r echo=TRUE, include=TRUE}
+set.seed(2)
+quint1<-quint(formula1, data= bcrp2arm, control=control1 )
+```
+
+After growing the binary tree using quint, we need to **prune** the tree. This is done
+using the **prune** function.
+
+```{r echo=TRUE, include=TRUE}
+quint1pr <- prune(quint1)
+```
+
+To obtain the most interesting information about the results of the method we should
+use the **summary** function.
+
+```{r echo=TRUE, include=TRUE}
+summary(quint1pr)
+```
+
+Another form of obtaining information about the solution is to **plot** the pruned tree.
+
+```{r echo=TRUE, include=TRUE, fig.width=7.5, fig.height=6}
+plot(quint1pr)
+```
+
+
+With these results we can conclude that the first treatment (nutrition) works better than the second treatment (education) for patients with dispositional optimism at baseline (disopt1)  below or equal to 18.5, negative social interaction at baseline (negsoct1) greater than 5.5 and a treatment extensiveness index (trext) less or equal than -0.76. Treatment 2 (education) works better for patients with disopt1 between 18.5 and 21.5, and patients with disopt1 less or equal than 18.5 and negsoct1 less or equal than 5.5. The rest of the patients could be assigned to any of the two treatments as the treatment effect does not differ for them according to quint. 
+
+*The results might be slightly different for R versions below 3.6.0.*

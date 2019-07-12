@@ -21,6 +21,10 @@ Returns an object of class \code{quint}. The number of leaves of this object is
 \description{
 Determines the optimally pruned size of the tree by applying the one
 standard error rule to the results from the bias-corrected bootstrap procedure.
+At the end of the pruning procedure, it is checked whether the pruned tree satisfies
+the qualitative interaction condition. If this condition is not met, it is concluded
+that there is no qualitative tratment-subgroup interaction and a tree containing
+only the root node is returned.
 }
 \details{
 The pruning algorithm of \code{quint} is explained in Dusseldorp
@@ -35,7 +39,7 @@ The pruning algorithm of \code{quint} is explained in Dusseldorp
 }
 \examples{
 data(bcrp)
-formula2 <- I(cesdt1-cesdt3)~cond |age+trext++uncomt1+ disopt1+negsoct1
+formula2 <- I(cesdt1-cesdt3)~cond |age+trext+uncomt1+disopt1+negsoct1
 #Adjust the control parameters only to save computation time in the example;
 #The default control parameters are preferred
 control2 <- quint.control(maxl=5,B=2)
@@ -51,7 +55,7 @@ Breiman L., Friedman J.H., Olshen R.A. and Stone C.J. (1984).
 
   Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
   a tool to identify qualitative treatment-subgroup interactions.
-  \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
+  \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 
   LeBlanc M. and Crowley J. (1993). Survival trees by goodness of split.
   \emph{Journal of the American Statistical Association, 88,} 457-467.

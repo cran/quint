@@ -1,8 +1,8 @@
 #' Breast Cancer Recovery Project
 #'
 #' Data from a three-arm randomized controlled trial. Women with early-stage
-#' breast cancer were randomly assigned to a nutrition intervention (\eqn{n = 85}),
-#' an education intervention (\eqn{n = 83}) or standard care (\eqn{n = 84}).
+#' breast cancer were randomly assigned to a nutrition intervention (\eqn{n} = 85),
+#' an education intervention (\eqn{n} = 83) or standard care (\eqn{n} = 84).
 #' They were measured before and after treatment. These data contain the baseline
 #' measurement and the 9-month follow-up.
 #'
@@ -37,13 +37,13 @@
 #'    \emph{Journal of Clinical Oncology, 25}, 5710-5714.
 #'
 #'    An example of a complete analysis on these data using the \code{quint} package is given in:
-#'    Dusseldorp E., Doove L. and Van Mechelen I. (2015). Quint: An R package for the
-#'    identification of subgroups of clients who differ in which treatment alternative
-#'    is best for them. Behavior research methods (ahead-of-print), 1-14.
-#'    DOI: 10.3758/s13428-015-0594-z.
+#'    Dusseldorp, E., Doove, L., & Van Mechelen, I. (2016). Quint:
+#'    An R package for the identification of subgroups of clients who differ in
+#'    which treatment alternative is best for them. \emph{Behavior Research Methods,
+#'    48}(2), 650-663. DOI 10.3758/s13428-015-0594-z.
 #'
 #'    An application of \code{quint} to these data is given in:
 #'    Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
 #'    a tool to identify qualitative treatment-subgroup interactions.
-#'    \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
+#'    \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 "bcrp"

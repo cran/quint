@@ -4,7 +4,7 @@
 #' QUINT tree which gives insight in the generalizability of the results.
 #'
 #' @param object a (pruned) QUINT tree object of class \code{quint}.
-#' @param B number of bootstrap samples. Default number is 10; for better accuracy B=1000
+#' @param B number of bootstrap samples. Default number is 10; for better accuracy \eqn{B}=1000
 #'  is recommended.
 #' @param allresults option to return an extended list of output. Default is set to FALSE.
 #'   See \emph{Value} section for details.
@@ -49,125 +49,137 @@
 #'
 #' @references Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
 #'   a tool to identify qualitative treatment-subgroup interactions.
-#'   \emph{Statistics in Medicine, 33(2)}, 219-237. DOI: 10.1002/sim.5933.
+#'   \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 #' @seealso \code{\link{quint}}, \code{\link{prune.quint}}, \code{\link{quint.control}}
 #'
-#' @examples data(bcrp)
+#' @examples
+#' \dontrun{data(bcrp)
 #' formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+age+
 #'   trext+comorbid+disopt1+uncomt1+negsoct1
 #'
 #' set.seed(10)
-#' control1<-quint.control(maxl=4,B=2)
+#' control1<-quint.control(maxl=5,B=2)
 #' quint1<-quint(formula1, data= subset(bcrp,cond<3),control=control1) #Grow a QUINT tree
 #'
 #' prquint1<-prune(quint1) #Prune tree to optimal size
 #'
 #' set.seed(3)
 #' valquint1<-quint.validate(prquint1, B = 5) #estimate the optimism by bootstrapping 5 times
-#' valquint1
+#' valquint1}
 #'
 #' @importFrom stats sd na.omit
 #'
 #' @export
 quint.validate <-function(object, B=10, allresults=FALSE){
-  
+
   if(is.null(object$si)){
     warning("quint.validate() does not work with quint objects without splitting information (si) ")
     print("No validation is possible. The tree contains only one leaf.")
   }else{
-  ## Construct bootstrap samples
-  y<-as.matrix(object$data[,1])
-  origtr<-as.factor(object$data[,2])
-  tr<-as.numeric(origtr)
-  indexboot <- Bootindex(y,B,tr)#number of bootstrap samples
-  Xmat <- object$data[, 3:dim(object$data)[2]]
-  controlB <- object$con
-  controlB$Boot <- FALSE
-  controlB$dmin <- 0.0001
-  controlB$maxl <- dim(object$li)[1]
-  origdat <- cbind(y, tr, Xmat)
-  origdat <- na.omit(origdat)
+    ## Construct bootstrap samples
+    y<-as.matrix(object$data[,1])
+    origtr<-as.factor(object$data[,2])
+    tr<-as.numeric(origtr)
+    indexboot <- Bootindex(y,B,tr)#number of bootstrap samples
+    Xmat <- object$data[, 3:dim(object$data)[2]]
+    controlB <- object$con
+    controlB$Boot <- FALSE
+    controlB$dmin <- 0.0001
+    controlB$maxl <- dim(object$li)[1]
+    origdat <- cbind(y, tr, Xmat)
+    origdat <- na.omit(origdat)
 
-  if(object$crit=='dm'){
-    optdif<-matrix(0,nrow=B,ncol=2)#optimism in difference of means
-    optdifmin<-matrix(0,nrow=B,ncol=2)
-    optdifmax<-matrix(0,nrow=B,ncol=2)
-    for (i in 1:B){
-      print(i)
-      quintboot<-quint(data=origdat[indexboot[,i],], control=controlB)
-      if(quintboot$si[1,1]!=0){
-        origli<-predval(object=quintboot,newdata=origdat) #original data through bootstrap trees
-        esbootdif<-quintboot$li$diff
+    if(object$crit=='dm'){
+      optdif<-matrix(0,nrow=B,ncol=2)#optimism in difference of means
+      optdifmin<-matrix(0,nrow=B,ncol=2)
+      optdifmax<-matrix(0,nrow=B,ncol=2)
+      for (i in 1:B){
+        print(i)
+        quintboot<-quint(data=origdat[indexboot[,i],], control=controlB)
+        if(is.null(quintboot$si)){
+          optdif[i,]<-NA;optdifmin[i,]<-NA;optdifmax[i,]<-NA
 
-        ##bias in difference in means
-        nnummaxdif<-quintboot$li$node[which(esbootdif==max(esbootdif))]  #search max and min raw diffs
-        nnummindif<-quintboot$li$node[which(esbootdif==min(esbootdif))]
-        optdifmin[i,]<-c( min(esbootdif),origli[origli[,2]==nnummindif,5])
-        optdifmax[i,]<-c( max(esbootdif),origli[origli[,2]==nnummaxdif,5])
-        optdif[i,]<-c( (max(esbootdif)-min(esbootdif)),(origli[origli[,2]==nnummaxdif,5]-origli[origli[,2]==nnummindif,5]))
-      } else {
-        optdif[i,]<-NA;optdifmin[i,]<-NA;optdifmax[i,]<-NA
+        }else if(quintboot$si[1,1]!=0){
+          origli<-predval(object=quintboot,newdata=origdat) #original data through bootstrap trees
+          esbootdif<-quintboot$li$diff
+
+          ##bias in difference in means
+          nnummaxdif<-quintboot$li$node[which(esbootdif==max(esbootdif))]  #search max and min raw diffs
+          nnummindif<-quintboot$li$node[which(esbootdif==min(esbootdif))]
+          optdifmin[i,]<-c( min(esbootdif),origli[origli[,2]==nnummindif,5])
+          optdifmax[i,]<-c( max(esbootdif),origli[origli[,2]==nnummaxdif,5])
+          optdif[i,]<-c( (max(esbootdif)-min(esbootdif)),(origli[origli[,2]==nnummaxdif,5]-origli[origli[,2]==nnummindif,5]))
+        } else {
+          optdif[i,]<-NA;optdifmin[i,]<-NA;optdifmax[i,]<-NA
+        }
+      }
+
+      missingBs<-sum(is.na(optdif[,1]))
+
+      resultdif<-c(biasdif=mean(optdif[,1]-optdif[,2],na.rm=TRUE),
+                   biasdifmin=mean(optdifmin[,1]-optdifmin[,2],na.rm=TRUE),
+                   biasdifmax=mean(optdifmax[,1]-optdifmax[,2],na.rm=TRUE))
+      mindex <- which.min(object$li[,8])
+      maxdex <- which.max(object$li[,8])
+
+      bc_diff <- numeric(dim(object$li)[1])
+      bc_diff[mindex] <- object$li[mindex, 8]-as.numeric(resultdif['biasdifmin'])
+      bc_diff[maxdex] <- object$li[maxdex, 8]-as.numeric(resultdif['biasdifmax'])
+      bc_diff[-c(mindex, maxdex)] <- NA
+      object$li <- cbind(object$li, bc_diff=bc_diff)
+      object<-list(estopt=resultdif['biasdif'], li=object$li,finalBootstraps=(B-missingBs))
+      if(allresults==FALSE) return(object)
+      if(allresults==TRUE) {
+        extendedobject <- list(optdif=optdif, resultdif=resultdif, li=object$li,finalBootstraps=(B-missingBs))
+        return(extendedobject)
       }
     }
 
-    resultdif<-c(biasdif=mean(optdif[,1]-optdif[,2],na.rm=TRUE),
-                biasdifmin=mean(optdifmin[,1]-optdifmin[,2],na.rm=TRUE),
-                biasdifmax=mean(optdifmax[,1]-optdifmax[,2],na.rm=TRUE))
-    mindex <- which.min(object$li[,8])
-    maxdex <- which.max(object$li[,8])
+    if(object$crit=='es'){
+      optd<-matrix(0,nrow=B,ncol=2)#optimism in effect size
+      optdmin<-matrix(0,nrow=B,ncol=2)
+      optdmax<-matrix(0,nrow=B,ncol=2)
+      for (i in 1:B){
+        print(i)
+        quintboot<-quint(data=origdat[indexboot[,i],], control=controlB)
 
-    bc_diff <- numeric(dim(object$li)[1])
-    bc_diff[mindex] <- object$li[mindex, 8]-as.numeric(resultdif['biasdifmin'])
-    bc_diff[maxdex] <- object$li[maxdex, 8]-as.numeric(resultdif['biasdifmax'])
-    bc_diff[-c(mindex, maxdex)] <- NA
-    object$li <- cbind(object$li, bc_diff=bc_diff)
-    object<-list(estopt=resultdif['biasdif'], li=object$li)
-    if(allresults==FALSE) return(object)
-    if(allresults==TRUE) {
-      extendedobject <- list(optdif=optdif, resultdif=resultdif, li=object$li)
-      return(extendedobject)
-    }
-  }
+        if(is.null(quintboot$si)){
+          optd[i,]<-NA;optdmin[i,]<-NA;optdmax[i,]<-NA
 
-  if(object$crit=='es'){
-    optd<-matrix(0,nrow=B,ncol=2)#optimism in effect size
-    optdmin<-matrix(0,nrow=B,ncol=2)
-    optdmax<-matrix(0,nrow=B,ncol=2)
-    for (i in 1:B){
-     print(i)
-     quintboot<-quint(data=origdat[indexboot[,i],], control=controlB)
-     if(quintboot$si[1,1]!=0){
-       origli<-predval(object=quintboot,newdata=origdat) #original data through bootstrap trees
-       esbootd<-quintboot$li$d
+        }else if(quintboot$si[1,1]!=0){
+          origli<-predval(object=quintboot,newdata=origdat) #original data through bootstrap trees
+          esbootd<-quintboot$li$d
 
-       ##bias in effect size
-       nnummaxd<-quintboot$li$node[which(esbootd==max(esbootd))]  #search max and min effect sizes
-       nnummind<-quintboot$li$node[which(esbootd==min(esbootd))]
-       optdmin[i,]<-c( min(esbootd),origli[origli[,2]==nnummind,5])
-       optdmax[i,]<-c( max(esbootd),origli[origli[,2]==nnummaxd,5])
-       optd[i,]<-c( (max(esbootd)-min(esbootd)),(origli[origli[,2]==nnummaxd,5]-origli[origli[,2]==nnummind,5]))
-      } else {
-        optd[i,]<-NA;optdmin[i,]<-NA;optdmax[i,]<-NA
+          ##bias in effect size
+          nnummaxd<-quintboot$li$node[which(esbootd==max(esbootd))]  #search max and min effect sizes
+          nnummind<-quintboot$li$node[which(esbootd==min(esbootd))]
+          optdmin[i,]<-c( min(esbootd),origli[origli[,2]==nnummind,5])
+          optdmax[i,]<-c( max(esbootd),origli[origli[,2]==nnummaxd,5])
+          optd[i,]<-c( (max(esbootd)-min(esbootd)),(origli[origli[,2]==nnummaxd,5]-origli[origli[,2]==nnummind,5]))
+        } else {
+          optd[i,]<-NA;optdmin[i,]<-NA;optdmax[i,]<-NA
+        }
       }
-    }
 
-    resultd<-c(biasd=mean(optd[,1]-optd[,2],na.rm=TRUE),
+      missingBs<-sum(is.na(optd[,1]))
+
+      resultd<-c(biasd=mean(optd[,1]-optd[,2],na.rm=TRUE),
                  biasdmin=mean(optdmin[,1]-optdmin[,2],na.rm=TRUE),
                  biasdmax=mean(optdmax[,1]-optdmax[,2],na.rm=TRUE))
-    mindex <- which.min(object$li[,8])
-    maxdex <- which.max(object$li[,8])
-    bc_d <- numeric(dim(object$li)[1])
-    bc_d[mindex] <- object$li[mindex, 8]-as.numeric(resultd['biasdmin'])
-    bc_d[maxdex] <- object$li[maxdex, 8]-as.numeric(resultd['biasdmax'])
-    bc_d[-c(mindex, maxdex)] <- NA
-    object$li <- cbind(object$li, bc_d=bc_d)
-    object<-list(estopt=resultd['biasd'], li=object$li)
-    if(allresults==FALSE) return(object)
-    if(allresults==TRUE) {
-      extendedobject <- list(optd=optd, resultd=resultd, li=object$li)
-      return(extendedobject)
+      mindex <- which.min(object$li[,8])
+      maxdex <- which.max(object$li[,8])
+      bc_d <- numeric(dim(object$li)[1])
+      bc_d[mindex] <- object$li[mindex, 8]-as.numeric(resultd['biasdmin'])
+      bc_d[maxdex] <- object$li[maxdex, 8]-as.numeric(resultd['biasdmax'])
+      bc_d[-c(mindex, maxdex)] <- NA
+      object$li <- cbind(object$li, bc_d=bc_d)
+      object<-list(estopt=resultd['biasd'], li=object$li, finalBootstraps=(B-missingBs))
+      if(allresults==FALSE) return(object)
+      if(allresults==TRUE) {
+        extendedobject <- list(optd=optd, resultd=resultd, li=object$li, finalBootstraps=(B-missingBs))
+        return(extendedobject)
+      }
     }
-  }
   }
 }
 
