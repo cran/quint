@@ -4,8 +4,16 @@
 \alias{quint.control}
 \title{Control Parameters for QUINT Algorithm}
 \usage{
-quint.control(crit = "es", maxl = 10, a1 = NULL, a2 = NULL,
-  w = NULL, Bootstrap = TRUE, B = 25, dmin = 0.3)
+quint.control(
+  crit = "es",
+  maxl = 10,
+  a1 = NULL,
+  a2 = NULL,
+  w = NULL,
+  Bootstrap = TRUE,
+  B = 25,
+  dmin = 0.3
+)
 }
 \arguments{
 \item{crit}{the type of difference in treatment outcome used in the

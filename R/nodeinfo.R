@@ -31,7 +31,7 @@ computeD<-function(n1, mean1,sd1,n2,mean2,sd2){
   sedval <- sqrt(var)
   # for crit = 'dm':
   diff <- mean1 - mean2
-  seDiff <- sqrt(sigmap*(1/n1 + 1/n2))
+  seDiff <- sqrt((sigmap^2)*(1/n1 + 1/n2))
   obj <- list(dval = dval, se = sedval, diff = diff, seDiff = seDiff)
   return(obj)}
 

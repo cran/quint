@@ -4,7 +4,8 @@
 \name{SimData_1}
 \alias{SimData_1}
 \title{Simulated data}
-\format{A data frame with 150 observations on the following variables:
+\format{
+A data frame with 150 observations on the following variables:
 \describe{
   \item{\code{Y}}{Outcome variable. It is obtained by regression according to the previously explained formula.}
   \item{\code{A}}{This is the treatment condition variable. It is sampled from a binomial distribution.}
@@ -29,7 +30,8 @@
   \item{\code{X19}}{Simulated covariate. It is sampled from a multivariate normal distribution.}
   \item{\code{X20}}{Simulated covariate. It is sampled from a multivariate normal distribution.}
   \item{\code{gopt}}{Variable indicating whether the data is simulated such that there is qualitative interaction (0) or there is no qualitative interaction (1)}
- }}
+ }
+}
 \usage{
 SimData_1
 }

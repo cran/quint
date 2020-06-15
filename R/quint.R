@@ -42,6 +42,7 @@
 #'    B is denoted with \eqn{T}=2. Can display either the output for Difference
 #'    in Means (crit='dm') or Cohen's \emph{d} effect size (crit='es').}
 #'  \item{data}{the data used to grow the tree.}
+#'  \item{orig_data}{the original data used as input.}
 #'  \item{nind}{an \eqn{N} x \eqn{L} matrix indicating leaf membership.}
 #'  \item{siboot}{an \eqn{L} x 9 x \eqn{B} array with split information for each bootstrap sample:
 #'    C_boot = value of \eqn{C};
@@ -54,6 +55,8 @@
 #'      3 = zero in P1 and P2;
 #'    opt = value of optimism (C_boot\emph{-}C_orig).}
 #'  \item{indexboot}{an \eqn{N} x \eqn{B} matrix indicating bootstrap sample membership.}
+#'  \item{formula}{a description of the model to be fit.}
+#'  \item{pruned}{a boolean indicating whether the tree has been already pruned or not.}
 #'
 #' @references Dusseldorp, E., Doove, L., & Van Mechelen, I. (2016). Quint:
 #'   An R package for the identification of subgroups of clients who differ in
@@ -71,7 +74,7 @@
 #'  https://openaccess.leidenuniv.nl/handle/1887/65935
 #'
 #' @seealso \code{\link{summary.quint}}, \code{\link{quint.control}},
-#'   \code{\link{prune.quint}}, \code{\link{bcrp}}
+#'   \code{\link{prune.quint}}, \code{\link{bcrp}}, \code{\link{quint.bootstrapCI}}
 #'
 #' @examples #EXAMPLE with data from the Breast Cancer Recovery Project
 #' data(bcrp)
@@ -105,7 +108,6 @@
 #' @importFrom stats model.frame IQR na.omit sd terms var
 #' @importFrom utils combn
 #'
-#' @exportClass quint
 #' @export
 quint<- function(formula, data, control=NULL){
   #Dataformat without use of formula:
@@ -115,12 +117,15 @@ quint<- function(formula, data, control=NULL){
   #rest of the columns in dataframe are the predictors
   #maxl: maximum total number of leaves (terminal nodes) of the final tree: Lmax
 
+  orig_data<-data
+
   dat <- as.data.frame(data)
-  if (missing(formula)) {
+  if(missing(formula) || is.null(formula)) {
     y <- dat[, 1]
     tr <- dat[, 2]
     Xmat <- dat[, -c(1, 2)]
     dat <- na.omit(dat)
+    formula<-NULL
     if (length(levels(as.factor(tr))) != 2) {
       stop("Quint cannot be performed. The number of treatment conditions does not equal 2.")
     }
@@ -255,8 +260,8 @@ quint<- function(formula, data, control=NULL){
     colnames(leaf.info) <- c("node","#(T=1)", "meanY|T=1", "SD|T=1","#(T=2)", "meanY|T=2","SD|T=2","d","se","class")
     rownames(leaf.info) <- c("Leaf 1")
     object <- list(call = match.call(), crit = crit, control = control,
-                   indexboot = NULL, data = dat, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
-                   siboot = NULL, pruned=FALSE)
+                   indexboot = NULL, data = dat, orig_data = orig_data, si = NULL, fi = NULL, li = leaf.info, nind = Gmat,
+                   siboot = NULL, formula = formula, pruned=FALSE)
     class(object)<-"quint"
     return(object)
   }else{
@@ -376,7 +381,7 @@ quint<- function(formula, data, control=NULL){
       }
 
       if(sum(is.na(allresultsboot[L,9,]))/control$B > .10 ){
-        warning("After split ",L,", the partitioning criterion cannot be computed in more than 10 percent of the bootstrap samples. The split is unstable." )
+        warning("After split ",L,", the partitioning criterion cannot be computed in more than 10 percent of the bootstrap samples. The split is unstable. Consider reducing the maximum number of leaves using quint.control()." )
       }
     }
 
@@ -419,7 +424,7 @@ quint<- function(formula, data, control=NULL){
     opt <- sapply(1:(Lfinal-1), function(kk,allresultsboot){mean(allresultsboot[kk,9,],na.rm=TRUE)}, allresultsboot=allresultsboot)
     se_opt <- sapply(1:(Lfinal-1), function(kk,allresultsboot){sd(allresultsboot[kk,9,],na.rm=TRUE)/sqrt(sum(!is.na(allresultsboot[kk,9,])))}, allresultsboot=allresultsboot)
     if(sum(is.na(se_opt))>0){
-      stop("The standard error obtained through bootstrap cannot be computed. Consider increasing the number of bootstraps (a minimum of 25 is recommended).")
+      stop("The standard error obtained through bootstrap cannot be computed. Consider decreasing the maximum number of leaves (recommended) or increasing the number of bootstraps (a minimum of 25 is advised).")
     }
 
     if(Lfinal==2){allresults <- c(allresults[1:5], allresults[5]-opt,opt, se_opt, allresults[6:7])
@@ -457,7 +462,7 @@ quint<- function(formula, data, control=NULL){
 
   if(control$Boot==FALSE){
     object <- list(call=match.call(), crit=crit, control=control,
-                   data=dat, si=si, fi=allresults[,c(1:2,6:8)], li=endinf, nind=Gmat[,index], pruned=FALSE)
+                   data = dat, orig_data = orig_data, si=si, fi=allresults[,c(1:2,6:8)], li=endinf, nind=Gmat[,index], formula = formula, pruned=FALSE)
   }
   if(control$Boot==TRUE){
     nam <- c("parentnode", "splittingvar", "splitpoint",
@@ -465,8 +470,8 @@ quint<- function(formula, data, control=NULL){
              "checkcard", "opt")
     dimnames(allresultsboot) <- list(NULL, nam, NULL)
     object <- list(call = match.call(), crit = crit, control = control,
-                   indexboot = indexboot, data = dat, si = si, fi = allresults[, c(1:2, 6:11)], li = endinf, nind = Gmat[, index],
-                   siboot = allresultsboot, pruned=FALSE)                                               #11
+                   indexboot = indexboot, data = dat, orig_data = orig_data, si = si, fi = allresults[, c(1:2, 6:11)], li = endinf, nind = Gmat[, index],
+                   siboot = allresultsboot, formula = formula, pruned=FALSE)                                               #11
   }
   class(object) <- "quint"
   return(object)

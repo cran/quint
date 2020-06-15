@@ -4,7 +4,8 @@
 \name{bcrp}
 \alias{bcrp}
 \title{Breast Cancer Recovery Project}
-\format{A data frame with 252 observations on the following 14 variables:
+\format{
+A data frame with 252 observations on the following 14 variables:
 \describe{
   \item{\code{physt1}}{physical functioning (from SF-36) at baseline.}
   \item{\code{cesdt1}}{depression score (CESD) at baseline.}
@@ -24,7 +25,8 @@
     or with lumpectomy, and without or with one form of adjuvant therapy [0.56],
     mastectomy without or with lumpectomy, and radiation and chemotherapy [2.59]. }
   \item{\code{cond}}{experimental condition: nutrition [1], education [2] or standard care [3].}
- }}
+ }
+}
 \source{
 The authors thank M.F. Scheier for making his data available.
 }

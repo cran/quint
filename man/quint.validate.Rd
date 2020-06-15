@@ -81,5 +81,5 @@ Dusseldorp E. and Van Mechelen I. (2014). Qualitative interaction trees:
   \emph{Statistics in Medicine, 33}(2), 219-237. DOI: 10.1002/sim.5933.
 }
 \seealso{
-\code{\link{quint}}, \code{\link{prune.quint}}, \code{\link{quint.control}}
+\code{\link{quint}}, \code{\link{prune.quint}}, \code{\link{quint.control}}, \code{\link{quint.bootstrapCI}}
 }

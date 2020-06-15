@@ -30,6 +30,7 @@ Returns an object of class \code{quint} with components:
    B is denoted with \eqn{T}=2. Can display either the output for Difference
    in Means (crit='dm') or Cohen's \emph{d} effect size (crit='es').}
  \item{data}{the data used to grow the tree.}
+ \item{orig_data}{the original data used as input.}
  \item{nind}{an \eqn{N} x \eqn{L} matrix indicating leaf membership.}
  \item{siboot}{an \eqn{L} x 9 x \eqn{B} array with split information for each bootstrap sample:
    C_boot = value of \eqn{C};
@@ -42,6 +43,8 @@ Returns an object of class \code{quint} with components:
      3 = zero in P1 and P2;
    opt = value of optimism (C_boot\emph{-}C_orig).}
  \item{indexboot}{an \eqn{N} x \eqn{B} matrix indicating bootstrap sample membership.}
+ \item{formula}{a description of the model to be fit.}
+ \item{pruned}{a boolean indicating whether the tree has been already pruned or not.}
 }
 \description{
 This is the core function of the package. It performs a subgroup analysis
@@ -112,7 +115,7 @@ Dusseldorp, E., Doove, L., & Van Mechelen, I. (2016). Quint:
 }
 \seealso{
 \code{\link{summary.quint}}, \code{\link{quint.control}},
-  \code{\link{prune.quint}}, \code{\link{bcrp}}
+  \code{\link{prune.quint}}, \code{\link{bcrp}}, \code{\link{quint.bootstrapCI}}
 }
 \keyword{cluster}
 \keyword{tree}

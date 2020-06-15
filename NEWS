@@ -1,3 +1,18 @@
+Changes in QUINT Version 2.1-0 (2020-6-12)
+========================================
+* New function quint.bootstrapCI(). It computes the confidence interval of the difference between treatments in each leaf using a bootstrap procedure.
+* quint class contains a new element: formula. It displays the formula used in the quint method.
+* quint() and prune.quint() are modified to deal with the new quint class.
+* help files are modified to include references to the new function quint.bootstrapCI().
+* fix bug in nodeinfo().
+* Bug in NAMESPACE is solved by removing @exportClass from prune.quint() and quint().
+* grid, utils and graphics are added to the DESCRIPTION file.
+
+
+Changes in QUINT Version 2.0-2 (2019-9-4)
+========================================
+* New advise on reducing the number of leaves when standard error cannot be computed in quint function.
+
 Changes in QUINT Version 2.0-1 (2019-7-10)
 ========================================
 * A vignette has been included.

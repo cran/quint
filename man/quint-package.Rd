@@ -24,8 +24,8 @@ not make any difference (P3).
 \tabular{ll}{
   Package: \tab quint\cr
   Type: \tab Package\cr
-  Version: \tab 2.0.1\cr
-  Date: \tab 2019-10-07\cr
+  Version: \tab 2.2.0\cr
+  Date: \tab 2020-02-03\cr
   License: \tab GPL\cr
 }
 
@@ -63,7 +63,8 @@ Dusseldorp, E., Doove, L., & Van Mechelen, I. (2016). Quint:
 }
 \seealso{
 \code{\link{quint}},\code{\link{summary.quint}},\code{\link{quint.control}},
-  \code{\link{prune.quint}},\code{\link{predict.quint}},\code{\link{quint.validate}}
+  \code{\link{prune.quint}},\code{\link{predict.quint}},\code{\link{quint.validate}},
+  \code{\link{quint.bootstrapCI}}
 }
 \author{
 Maintainer: Elise Dusseldorp <elise.dusseldorp@fsw.leidenuniv.nl>

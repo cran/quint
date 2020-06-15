@@ -43,8 +43,10 @@
 #' predquint1
 #'
 #' @importFrom stats as.formula model.frame
+#' @importFrom Formula Formula
 #' @export
 predict.quint<-function(object,newdata,type='class',...){
+
   if(is.null(object$si)){
     form<-as.formula(paste(names(object$data)[1],"~",paste(names(object$data)[-1],collapse="+" )))
     ytxna <- model.frame(form, data=newdata, na.action=NULL)
@@ -54,19 +56,19 @@ predict.quint<-function(object,newdata,type='class',...){
     if(nmis!= 0){
       naindex <- which(is.na(ytxna)) # which subjects have NA on required variables
     }
-    
+
     if(type=="matrix") {
       nodemat <- matrix(0, nrow=dim(newdata)[1], ncol=2)
         nodemat[,1] <- rep(1,dim(newdata)[1])
         nodemat[,2] <- rep(1,dim(newdata)[1])
-        
+
       if(nmis!= 0){
         nodemat[naindex,c(1:2)] <- NA
       }
       colnames(nodemat) <- c("Leaf", "Node")
       return(nodemat)
     }
-    
+
     if(type=="class"){
       classmat <- numeric(dim(newdata)[1])
       classmat <- rep(object$li[,10],length(classmat))
@@ -76,7 +78,7 @@ predict.quint<-function(object,newdata,type='class',...){
       names(classmat) <- 1:dim(newdata)[1]
       return(classmat)
     }
-    
+
   }else{
   nsplit<-dim(object$si)[1]
   form<-as.formula(paste(names(object$data)[1],"~",paste(c(object$si[1:nsplit,3]),collapse="+" )))

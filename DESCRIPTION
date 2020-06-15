@@ -1,8 +1,8 @@
 Package: quint
 Type: Package
 Title: Qualitative Interaction Trees
-Version: 2.0.1
-Date: 2019-07-10
+Version: 2.1.0
+Date: 2020-06-12
 Authors@R: c(person(given = "Elise", family = "Dusseldorp", role =
         c("aut", "cre","cph"), email = "elise.dusseldorp@fsw.leidenuniv.nl"),
         person("Lisa","Doove",role=c("aut"),email="lisa.doove@kuleuven.be"),
@@ -15,12 +15,13 @@ Authors@R: c(person(given = "Elise", family = "Dusseldorp", role =
 Maintainer: Elise Dusseldorp <elise.dusseldorp@fsw.leidenuniv.nl>
 Description: Grows a qualitative interaction tree. Quint is a tool for subgroup analysis, suitable for data from a two-arm randomized controlled trial.
 URL: https://doi.org/10.3758/s13428-015-0594-z
-Depends: R (>= 3.0.2), partykit, Formula, rpart, stats
+Depends: R (>= 3.0.2), partykit, Formula, rpart, stats, grid, utils,
+        graphics
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: GPL-2
 LazyData: TRUE
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Author: Elise Dusseldorp [aut, cre, cph],
   Lisa Doove [aut],
   Jeanne van de Put [aut],
@@ -28,6 +29,6 @@ Author: Elise Dusseldorp [aut, cre, cph],
   Iven Van Mechelen [aut, cph],
   Juan Claramunt Gonzalez [aut]
 NeedsCompilation: no
-Packaged: 2019-07-12 08:23:21 UTC; jclaramunt
+Packaged: 2020-06-12 17:07:46 UTC; jclaramunt
 Repository: CRAN
-Date/Publication: 2019-07-12 08:42:40 UTC
+Date/Publication: 2020-06-15 23:50:03 UTC

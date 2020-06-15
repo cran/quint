@@ -43,7 +43,7 @@ library(quint)
 ```{r echo=TRUE, include=TRUE}
 data(bcrp)
 head(bcrp)
-bcrp2arm<-subset(bcrp,cond<3)
+bcrp2arm<-subset(bcrp,bcrp$cond<3)
 head(bcrp2arm)
 ```
 
@@ -54,12 +54,12 @@ summary(bcrp2arm)
 ```
 
 Once we have the data, we need to set up the control parameters of the algorithm of quint. In this case,
-we use the default values for the following arguments: type of treatment outcome difference used in the partitioning criterion (i.e., effect size), minimal sample size of patients assigned to treatment 1 and treatment 2 in each leaf (10% of the sample size of each treatment), the weights, and the minimum absolute standarized mean outcome difference (dmin = 0.3).
+we use the default values for the following arguments: minimal sample size of patients assigned to treatment 1 and treatment 2 in each leaf (10% of the sample size of each treatment), the weights, and the minimum absolute standarized mean outcome difference (dmin = 0.3).
 
-On the other hand, we set the maximum number of leaves to 5 and we decided to perform the bias-corrected bootstrap procedure using 10 bootstrap samples (the default number is 25).
+On the other hand, we set the type of treatment outcome difference used in the partitioning criterion to difference in treatment means, the maximum number of leaves to 5 and we decided to perform the bias-corrected bootstrap procedure using 10 bootstrap samples (the default number is 25).
 
 ```{r echo=TRUE, include=TRUE}
-control1 <- quint.control(maxl = 5,B = 10)
+control1 <- quint.control(crit="dm",maxl = 5,B = 10)
 ```
 
 Also, we need to define the formula to be used in quint. This formula should contain
@@ -68,7 +68,7 @@ at the baseline and at the 9-month follow-up). Next to it, the variable indicati
 and finally the pretreatment characteristics.
 
 ```{r echo=TRUE, include=TRUE}
-formula1<- I(cesdt1-cesdt3)~cond | nationality+marital+wcht1+  age+trext+comorbid+disopt1+uncomt1+negsoct1
+formula1<- I(cesdt1-cesdt3) ~ cond | nationality+marital+wcht1+  age+trext+comorbid+disopt1+uncomt1+negsoct1
 ```
 
 Now, we are ready to perform **quint**.
@@ -85,20 +85,33 @@ using the **prune** function.
 quint1pr <- prune(quint1)
 ```
 
+Here, if you consider that the standard errors of the mean difference are very small (and therefore
+the CI), then we should use the function **quint.bootstrapCI**, which estimates the confidence intervals of the mean difference (up to version 2.1.0 it does not work with effects sizes) in each leaf using a bootstrap-based algorithm. 
+
+```{r echo=TRUE, include=TRUE}
+quint1pr_bootCI <- quint.bootstrapCI(quint1pr,n_boot = 5)
+```
+
+
 To obtain the most interesting information about the results of the method we should
 use the **summary** function.
 
 ```{r echo=TRUE, include=TRUE}
-summary(quint1pr)
+summary(quint1pr)  #without bootstrap-based confidence intervals 
+summary(quint1pr_bootCI$tree) #with bootstrap-based confidence intervals 
 ```
 
 Another form of obtaining information about the solution is to **plot** the pruned tree.
 
 ```{r echo=TRUE, include=TRUE, fig.width=7.5, fig.height=6}
-plot(quint1pr)
+plot(quint1pr) #without bootstrap-based confidence intervals 
+plot(quint1pr_bootCI$tree) #with bootstrap-based confidence intervals 
 ```
 
-
-With these results we can conclude that the first treatment (nutrition) works better than the second treatment (education) for patients with dispositional optimism at baseline (disopt1)  below or equal to 18.5, negative social interaction at baseline (negsoct1) greater than 5.5 and a treatment extensiveness index (trext) less or equal than -0.76. Treatment 2 (education) works better for patients with disopt1 between 18.5 and 21.5, and patients with disopt1 less or equal than 18.5 and negsoct1 less or equal than 5.5. The rest of the patients could be assigned to any of the two treatments as the treatment effect does not differ for them according to quint. 
+With these results we can conclude that the first treatment (nutrition) works better than the second treatment (education) for patients with dispositional optimism at baseline (disopt1)  below or equal to 18.5, negative social interaction at baseline (negsoct1) greater than 5.5 and unmitigated communion at baseline (uncomt1) greater than 34.5. Treatment 2 (education) works better for patients with disopt1 greater than 18.5, and patients with disopt1 less or equal than 18.5 and negsoct1 less or equal than 5.5. The rest of the patients could be assigned to any of the two treatments as the treatment effect does not differ for them according to quint. 
+We can observe the different standard errors for the two methods, as the confidence intervals computed using bootstrap are larger.
 
 *The results might be slightly different for R versions below 3.6.0.*
+
+
+

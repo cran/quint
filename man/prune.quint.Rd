@@ -61,6 +61,6 @@ Breiman L., Friedman J.H., Olshen R.A. and Stone C.J. (1984).
   \emph{Journal of the American Statistical Association, 88,} 457-467.
 }
 \seealso{
-\code{\link{quint.control}}, \code{\link{quint}}
+\code{\link{quint.control}}, \code{\link{quint}}, \code{\link{quint.bootstrapCI}}
 }
 \keyword{tree}
