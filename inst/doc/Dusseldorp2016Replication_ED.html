@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Elise Dusseldorp" />
+
+<meta name="date" content="2022-07-01" />
+
+<title>Dusseldorp et al., 2016 QUINT Replication</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Dusseldorp et al., 2016 QUINT
+Replication</h1>
+<h4 class="author">Elise Dusseldorp</h4>
+<h4 class="date">2022-07-01</h4>
+
+
+
+<div id="loading-package-and-data" class="section level1">
+<h1>Loading package and data</h1>
+</div>
+<div id="check-that-data-aligns" class="section level1">
+<h1>Check that data aligns</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>bcrp[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">14</span>)]</span></code></pre></div>
+<pre><code>##     physt1 cesdt1   physt3 cesdt3 negsoct1 uncomt1 cond
+## 1 37.65374     14 52.62905      4        9      28    3
+## 2 53.64822     10 51.18797     14        7      36    1
+## 3 63.84140      8 66.45392      9        6      29    2</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ex_data <span class="ot">&lt;-</span> <span class="fu">subset</span>(bcrp, cond <span class="sc">&lt;</span> <span class="dv">3</span>)</span></code></pre></div>
+</div>
+<div id="formulas-for-quint-commands" class="section level1">
+<h1>Formulas for QUINT commands</h1>
+<p>In the previous version there were two mistakes in formula 2 here
+(one mistake was the physt3 - physt3 and the other one is a typo from
+the paper: it should be physt1 as predictor instead of cesdt1). This
+typo however gave in this case the same result as using physt1.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>formula1 <span class="ot">&lt;-</span> <span class="fu">I</span>(cesdt1<span class="sc">-</span>cesdt3)<span class="sc">~</span>cond<span class="sc">|</span>cesdt1<span class="sc">+</span>negsoct1<span class="sc">+</span>uncomt1<span class="sc">+</span>disopt1<span class="sc">+</span>comorbid<span class="sc">+</span>age<span class="sc">+</span>wcht1<span class="sc">+</span>nationality<span class="sc">+</span>marital<span class="sc">+</span>trext</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Old formula2 &lt;- I(physt3-physt3)~cond|cesdt1+negsoct1+uncomt1+disopt1+comorbid+age+wcht1+nationality+marital+trext</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">##New formula 2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>formula2 <span class="ot">&lt;-</span> <span class="fu">I</span>(physt3<span class="sc">-</span>physt1)<span class="sc">~</span>cond<span class="sc">|</span>physt1<span class="sc">+</span>negsoct1<span class="sc">+</span>uncomt1<span class="sc">+</span>disopt1<span class="sc">+</span>comorbid<span class="sc">+</span>age<span class="sc">+</span>wcht1<span class="sc">+</span>nationality<span class="sc">+</span>marital<span class="sc">+</span>trext</span></code></pre></div>
+</div>
+<div id="quint-model-for-cesdt-difference-replicates" class="section level1">
+<h1>Quint model for cesdt difference (replicates)</h1>
+<p>When you choose a different seed (see below) the result is the same
+as in the BRM article. In R version 4 the random number generator has
+been changed. This might give you the feeling that results are depending
+on the seed, and thus unstable. The stability of the solution can be
+improved when we increase the number of bootstrap samples (see below the
+example with control6)</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4717</span>) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>quint1 <span class="ot">&lt;-</span> <span class="fu">quint</span>(formula1, <span class="at">data =</span> ex_data)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(quint1)</span></code></pre></div>
+<pre><code>## Warning in summary.quint(quint1): This tree is the initial one and it is not
+## pruned. Thus, the qualitative interaction condition has not been checked yet. We
+## advise to prune the tree and then summarize its information.</code></pre>
+<pre><code>## Partitioning criterion: Effect size criterion 
+##  
+## Fit information: 
+##                Criterion 
+##                 - - - - 
+##  split #leaves apparent biascorrected   se
+##      1       2     2.51          2.22 0.03
+##      2       3     2.66          2.28 0.03
+##      3       4     2.78          2.36 0.03
+##      4       5     2.86          2.38 0.04
+##      5       6     2.89          2.41 0.05
+##      6       7     2.90          2.33 0.06
+## 
+## Split information: 
+##         parentnode childnodes splittingvar splitpoint
+## Split 1          1        2,3      disopt1      18.50
+## Split 2          2        4,5     negsoct1       5.50
+## Split 3          5      10,11        trext      -0.76
+## Split 4          3        6,7      disopt1      21.50
+## Split 5         11      22,23      uncomt1      28.50
+## Split 6         23      46,47       cesdt1       7.00
+## 
+## Leaf information: 
+##        #(T=1) meanY|T=1 SD|T=1 #(T=2) meanY|T=2 SD|T=2     d   se class
+## Leaf 1     11      1.00   3.10      7      3.71   4.75 -0.71 0.54     2
+## Leaf 2     14      4.07   4.55      8     -5.50   4.84  2.06 0.59     1
+## Leaf 3      9      1.67   7.35     11      3.36   4.86 -0.28 0.48     2
+## Leaf 4      9      1.11   1.90      9     -2.56   4.48  1.07 0.55     1
+## Leaf 5     16      6.06   7.26     11      1.91   5.39  0.63 0.42     3
+## Leaf 6     11     -1.09   2.74     17      1.65   2.94 -0.96 0.43     2
+## Leaf 7      8      0.75   6.09      7      0.29   1.80  0.10 0.56     3</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>quint1<span class="sc">$</span>fi</span></code></pre></div>
+<pre><code>##   split #leaves apparent biascorrected       opt         se   compdif compcard
+## 1     1       2 2.508878      2.216474 0.2924035 0.02510283 0.5537120 1.955166
+## 2     2       3 2.662751      2.284585 0.3781667 0.03174262 0.6700347 1.992717
+## 3     3       4 2.782163      2.362743 0.4194197 0.03334662 1.1088803 1.673282
+## 4     4       5 2.862181      2.380237 0.4819436 0.04287284 1.2544722 1.607709
+## 5     5       6 2.886169      2.410823 0.4753462 0.04572113 0.9358392 1.950330
+## 6     6       7 2.899296      2.327036 0.5722607 0.06432640 1.0688096 1.830487</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>quint1<span class="sc">$</span>si</span></code></pre></div>
+<pre><code>##         parentnode childnodes splittingvar splitpoint truesplitpoint
+## Split 1          1        2,3      disopt1 18.5000000          18.50
+## Split 2          2        4,5     negsoct1  5.5000000           5.50
+## Split 3          5      10,11        trext -0.7576506          -0.76
+## Split 4          3        6,7      disopt1 21.5000000          21.50
+## Split 5         11      22,23      uncomt1 28.5000000          28.50
+## Split 6         23      46,47       cesdt1  7.0000000           7.00</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>quint1<span class="sc">$</span>li</span></code></pre></div>
+<pre><code>##        node #(T=1) meanY|T=1   SD|T=1 #(T=2)  meanY|T=2   SD|T=2          d
+## Leaf 1    4     11  1.000000 3.098387      7  3.7142857 4.750940 -0.7136858
+## Leaf 2   10     14  4.071429 4.548276      8 -5.5000000 4.840307  2.0572337
+## Leaf 3   22      9  1.666667 7.348469     11  3.3636364 4.863594 -0.2784485
+## Leaf 4   46      9  1.111111 1.900292      9 -2.5555556 4.475241  1.0665296
+## Leaf 5   47     16  6.062500 7.261485     11  1.9090909 5.393599  0.6313815
+## Leaf 6    6     11 -1.090909 2.736953     17  1.6470588 2.935583 -0.9570573
+## Leaf 7    7      8  0.750000 6.088631      7  0.2857143 1.799471  0.1002329
+##               se class
+## Leaf 1 0.5362530     2
+## Leaf 2 0.5890799     1
+## Leaf 3 0.4795359     2
+## Leaf 4 0.5473016     1
+## Leaf 5 0.4196000     3
+## Leaf 6 0.4273913     2
+## Leaf 7 0.5631033     3</code></pre>
+<div id="pruning" class="section level2">
+<h2>Pruning</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>quint1pr <span class="ot">&lt;-</span> <span class="fu">prune</span>(quint1)</span></code></pre></div>
+<pre><code>## The sample size in the analysis is 148 
+## split 1 
+## #leaves is 2 
+## current value of C 2.508878 
+## split 2 
+## #leaves is 3 
+## current value of C 2.662751 
+## split 3 
+## #leaves is 4 
+## current value of C 2.782163 
+## split 4 
+## #leaves is 5</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(quint1pr)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- -->
+Result of pruning is the same as Figure 1 in paper</p>
+</div>
+</div>
+<div id="quint-model-for-physt-difference" class="section level1">
+<h1>Quint model for physt difference</h1>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">48</span>) <span class="co">#note that this is again a different random number due to R version 4 and higher</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>quint2 <span class="ot">&lt;-</span> <span class="fu">quint</span>(<span class="at">formula =</span> formula2, <span class="at">data =</span> ex_data)</span></code></pre></div>
+<pre><code>## Warning in quint(formula = formula2, data = ex_data): After split 5, the
+## partitioning criterion cannot be computed in more than 10 percent of the
+## bootstrap samples. The split is unstable. Consider reducing the maximum number
+## of leaves using quint.control().</code></pre>
+<p>Pruning gives the same result as in the paper.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>quint2<span class="sc">$</span>fi</span></code></pre></div>
+<pre><code>##   split #leaves apparent biascorrected       opt         se   compdif compcard
+## 1     1       2 2.416531      2.159822 0.2567094 0.02769424 0.5122472 1.904284
+## 2     2       3 2.440250      2.007987 0.4322630 0.03286115 0.9582961 1.481954
+## 3     3       4 2.634604      2.078552 0.5560526 0.05039910 0.6352842 1.999320
+## 4     4       5 2.750414      2.143925 0.6064887 0.05622533 0.9307353 1.819678
+## 5     5       6 2.828961      2.157154 0.6718063 0.06697405 0.8448054 1.984155</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>quint2pr <span class="ot">&lt;-</span> <span class="fu">prune</span>(quint2) </span></code></pre></div>
+<pre><code>## The sample size in the analysis is 148 
+## split 1 
+## #leaves is 2</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(quint2pr)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="using-different-tuning-parameters" class="section level1">
+<h1>Using different tuning parameters</h1>
+<div id="changing-criterion" class="section level2">
+<h2>Changing Criterion</h2>
+<p>Using the new formula2 this works</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>control3 <span class="ot">&lt;-</span> <span class="fu">quint.control</span>(<span class="at">crit =</span> <span class="st">&quot;dm&quot;</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">48</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>quint3 <span class="ot">&lt;-</span> <span class="fu">quint</span>(<span class="at">formula =</span> formula2, <span class="at">data =</span> ex_data, <span class="at">control =</span> control3)</span></code></pre></div>
+<pre><code>## Treatment variable (T) equals 1 corresponds to cond = 1 
+## Treatment variable (T) equals 2 corresponds to cond = 2 
+## The sample size in the analysis is 148 
+## split 1 
+## #leaves is 2 
+## Bootstrap sample  1 
+## Bootstrap sample  2 
+## Bootstrap sample  3 
+## Bootstrap sample  4 
+## Bootstrap sample  5 
+## Bootstrap sample  6 
+## Bootstrap sample  7 
+## Bootstrap sample  8 
+## Bootstrap sample  9 
+## Bootstrap sample  10 
+## Bootstrap sample  11 
+## Bootstrap sample  12 
+## Bootstrap sample  13 
+## Bootstrap sample  14 
+## Bootstrap sample  15 
+## Bootstrap sample  16 
+## Bootstrap sample  17 
+## Bootstrap sample  18 
+## Bootstrap sample  19 
+## Bootstrap sample  20 
+## Bootstrap sample  21 
+## Bootstrap sample  22 
+## Bootstrap sample  23 
+## Bootstrap sample  24 
+## Bootstrap sample  25 
+## current value of C 3.077355 
+## split 2 
+## #leaves is 3 
+## splitting process stopped after number of leaves equals 2 because new value of C was not higher than current value of C</code></pre>
+</div>
+<div id="changing-max-leaves-replicates" class="section level2">
+<h2>Changing Max Leaves (Replicates)</h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>control4 <span class="ot">&lt;-</span> <span class="fu">quint.control</span>(<span class="at">maxl =</span> <span class="dv">2</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">48</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>quint4 <span class="ot">&lt;-</span> <span class="fu">quint</span>(<span class="at">formula =</span> formula1, <span class="at">data =</span> ex_data, <span class="at">control =</span> control4)</span></code></pre></div>
+<pre><code>## Treatment variable (T) equals 1 corresponds to cond = 1 
+## Treatment variable (T) equals 2 corresponds to cond = 2 
+## The sample size in the analysis is 148 
+## split 1 
+## #leaves is 2 
+## Bootstrap sample  1 
+## Bootstrap sample  2 
+## Bootstrap sample  3 
+## Bootstrap sample  4 
+## Bootstrap sample  5 
+## Bootstrap sample  6 
+## Bootstrap sample  7 
+## Bootstrap sample  8 
+## Bootstrap sample  9 
+## Bootstrap sample  10 
+## Bootstrap sample  11 
+## Bootstrap sample  12 
+## Bootstrap sample  13 
+## Bootstrap sample  14 
+## Bootstrap sample  15 
+## Bootstrap sample  16 
+## Bootstrap sample  17 
+## Bootstrap sample  18 
+## Bootstrap sample  19 
+## Bootstrap sample  20 
+## Bootstrap sample  21 
+## Bootstrap sample  22 
+## Bootstrap sample  23 
+## Bootstrap sample  24 
+## Bootstrap sample  25</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(quint4<span class="sc">$</span>li, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##        node #(T=1) meanY|T=1 SD|T=1 #(T=2) meanY|T=2 SD|T=2     d   se class
+## Leaf 1    2     59      3.22   5.68     46      0.37   5.86  0.50 0.20     1
+## Leaf 2    3     19     -0.32   4.41     24      1.25   2.69 -0.44 0.32     2</code></pre>
+</div>
+<div id="changing-minimum-effect-size-for-split" class="section level2">
+<h2>Changing minimum effect size for split</h2>
+<p>In version 2, we check the value of dmin after the pruning (thus not
+after the first split when growing the tree). The advantage is that we
+also allow trees with 3 or more splits that satisfy the dmin criteria
+(if we only check after one split we might miss a valuable qualitative
+interaction further down the tree). For this example, the final result
+here is the same: the tree is pruned back to the root node. It means
+that there is no qualitative interaction with a minimum effect size of
+0.40 in one of the leaves assigned to P1 and -0.40 in one of the leaves
+assigned to P2.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>control5 <span class="ot">&lt;-</span> <span class="fu">quint.control</span>(<span class="at">crit =</span> <span class="st">&quot;dm&quot;</span>, <span class="at">dmin =</span> <span class="fl">0.40</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">48</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>quint5 <span class="ot">&lt;-</span> <span class="fu">quint</span>(<span class="at">formula =</span> formula2 , <span class="at">data =</span> ex_data, <span class="at">control =</span> control5)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>quint5pr <span class="ot">&lt;-</span> <span class="fu">prune</span>(quint5)</span></code></pre></div>
+<pre><code>## The sample size in the analysis is 148 
+## split 1 
+## #leaves is 2</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>quint5pr<span class="sc">$</span>li</span></code></pre></div>
+<pre><code>##        node #(T=1) meanY|T=1   SD|T=1 #(T=2) meanY|T=2   SD|T=2         d
+## Leaf 1    0     78   3.52226 6.612303     70  5.890787 8.427688 -2.368527
+##             se class
+## Leaf 1 1.23892     2</code></pre>
+</div>
+<div id="changing-number-of-bootstraps-to-50" class="section level2">
+<h2>Changing number of bootstraps to 50</h2>
+<p>Now we use the original seed of the paper (47) and increase the
+number of bootstrap samples to obtain more stable results. The default
+number of B = 25 was chosen to speed up the computations and based on
+the paper by LeBlanc, M., &amp; Crowley, J. (1993).</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">47</span>) <span class="co">#this is the original seed of the first example in the paper</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>control6 <span class="ot">&lt;-</span> <span class="fu">quint.control</span>(<span class="at">B =</span> <span class="dv">50</span>) <span class="co">#now we choose 50 bootstrap samples</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>quint6 <span class="ot">&lt;-</span> <span class="fu">quint</span>(<span class="at">formula =</span> formula1 , <span class="at">data =</span> ex_data, <span class="at">control =</span> control6)</span></code></pre></div>
+<pre><code>## Warning in quint(formula = formula1, data = ex_data, control = control6): After
+## split 5, the partitioning criterion cannot be computed in more than 10 percent
+## of the bootstrap samples. The split is unstable. Consider reducing the maximum
+## number of leaves using quint.control().</code></pre>
+<pre><code>## Warning in quint(formula = formula1, data = ex_data, control = control6): After
+## split 6, the partitioning criterion cannot be computed in more than 10 percent
+## of the bootstrap samples. The split is unstable. Consider reducing the maximum
+## number of leaves using quint.control().</code></pre>
+<p>This results again in the same Figure 1 as in the paper:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>quint6<span class="sc">$</span>fi</span></code></pre></div>
+<pre><code>##   split #leaves apparent biascorrected       opt         se   compdif compcard
+## 1     1       2 2.508878      2.244627 0.2642509 0.02566082 0.5537120 1.955166
+## 2     2       3 2.662751      2.295180 0.3675710 0.03017141 0.6700347 1.992717
+## 3     3       4 2.782163      2.363180 0.4189829 0.02463731 1.1088803 1.673282
+## 4     4       5 2.862181      2.417665 0.4445166 0.02301522 1.2544722 1.607709
+## 5     5       6 2.886169      2.412628 0.4735408 0.02376043 0.9358392 1.950330
+## 6     6       7 2.899296      2.410083 0.4892138 0.03886487 1.0688096 1.830487</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>quint6pr <span class="ot">&lt;-</span> <span class="fu">prune</span>(quint6)</span></code></pre></div>
+<pre><code>## The sample size in the analysis is 148 
+## split 1 
+## #leaves is 2 
+## current value of C 2.508878 
+## split 2 
+## #leaves is 3 
+## current value of C 2.662751 
+## split 3 
+## #leaves is 4 
+## current value of C 2.782163 
+## split 4 
+## #leaves is 5</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(quint6pr)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

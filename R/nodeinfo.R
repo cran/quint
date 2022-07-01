@@ -71,9 +71,9 @@ ctmat<-function(Gmat,y,tr,crit){
 
   if(crit=="dm") {
     diff <- sapply(1:rownum, function(kk, tmat) {
-        ifelse(is.na(sum(tmat[kk, c(2:3, 5:6)])), NA, computeD(tmat[kk,1], tmat[kk, 2], tmat[kk, 3], tmat[kk, 4], tmat[kk, 5], tmat[kk, 6])$diff) }, tmat = tmat)
+      ifelse(is.na(sum(tmat[kk, c(2:3, 5:6)])), NA, computeD(tmat[kk,1], tmat[kk, 2], tmat[kk, 3], tmat[kk, 4], tmat[kk, 5], tmat[kk, 6])$diff) }, tmat = tmat)
     se <- sapply(1:rownum, function(kk, tmat) {
-        ifelse(is.na(sum(tmat[kk, c(2:3, 5:6)])), NA, computeD(tmat[kk,1], tmat[kk, 2], tmat[kk, 3], tmat[kk, 4], tmat[kk,5], tmat[kk, 6])$seDiff)}, tmat = tmat)
+      ifelse(is.na(sum(tmat[kk, c(2:3, 5:6)])), NA, computeD(tmat[kk,1], tmat[kk, 2], tmat[kk, 3], tmat[kk, 4], tmat[kk,5], tmat[kk, 6])$seDiff)}, tmat = tmat)
     tmat <- cbind(tmat, diff, se)
     colnames(tmat) <- c("nt1", "meant1", "sdt1", "nt2", "meant2","sdt2", "diff", "se")
   }

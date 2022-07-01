@@ -1,59 +1,116 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2020-06-12" />
+<meta name="date" content="2022-07-01" />
 
 <title>Qualitative interaction trees</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
 </style>
 <script>
@@ -69,7 +126,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -80,7 +137,188 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -93,57 +331,75 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Qualitative interaction trees</h1>
-<h4 class="date">2020-06-12</h4>
+<h4 class="date">2022-07-01</h4>
 
 
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>This package implements in R the Qualitative interaction trees method ( <a href="https://doi.org/10.1002/sim.5933">Quint</a> ).</p>
-<p>Quint looks for qualitative interactions in two-arm randomized controlled trials using binary regression trees. The algorithm detects subgroups of clients (patients) for which one treatment is optimal while for other subgroups a different treatment is optimal. Also, subgroups that do not differ in treatment effect are detected. The growth of the binary tree, and therefore, the identification of subgroups of clients to a treatment, is defined in terms of pretreatment characteristics.</p>
+<p>This package implements in R the Qualitative interaction trees method
+( <a href="https://doi.org/10.1002/sim.5933">Quint</a> ).</p>
+<p>Quint looks for qualitative interactions in two-arm randomized
+controlled trials using binary regression trees. The algorithm detects
+subgroups of clients (patients) for which one treatment is optimal while
+for other subgroups a different treatment is optimal. Also, subgroups
+that do not differ in treatment effect are detected. The growth of the
+binary tree, and therefore, the identification of subgroups of clients
+to a treatment, is defined in terms of pretreatment characteristics.</p>
 </div>
 <div id="further-information" class="section level1">
 <h1>Further information</h1>
-<p>For further explanation on the <strong>Quint algorithm, R package, and a real example</strong>, read the linked <a href="https://doi.org/10.3758/s13428-015-0594-z">article</a>.</p>
+<p>For further explanation on the <strong>Quint algorithm, R package,
+and a real example</strong>, read the linked <a href="https://doi.org/10.3758/s13428-015-0594-z">article</a>.</p>
 </div>
 <div id="example-on-how-to-use-quint-in-r" class="section level1">
 <h1>Example on how to use Quint in R</h1>
-<p>In this example we use data from a three-arm randomized controlled trial. The data contain information on women with early-stage breast cancer who were assigned randomly to different treatments. These treatments are a nutrition intervention, an education intervention, and standard care.</p>
-<p>Quint is a method for two-arm randomized controlled trials. Therefore, in this example we restrict ourselves to the first two treatments, that is, the nutrition intervention and the education intervention.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(bcrp)
-<span class="kw">head</span>(bcrp)</code></pre></div>
-<pre><code>##     physt1 cesdt1   physt3 cesdt3 negsoct1 uncomt1 disopt1 comorbid
-## 1 37.65374     14 52.62905      4        9      28      14        6
-## 2 53.64822     10 51.18797     14        7      36      10        2
-## 3 63.84140      8 66.45392      9        6      29      15        1
-## 4 38.72757      2 45.99656      4        5      30      17       13
-## 5 55.85700      0 60.66603      1       10      32      22        1
-## 6 53.06922      0 54.83928      0        8      24      21        3
-##        age wcht1 nationality marital     trext cond
-## 1 29.48392     1           1       0 0.2589759    3
-## 2 44.66256     1           1       1 0.5557208    1
-## 3 43.09925     1           1       0 0.2589759    2
-## 4 46.93498     1           1       1 0.5557208    2
-## 5 41.09514     0           1       1 0.5557208    2
-## 6 44.44627     1           1       1 0.2589759    3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bcrp2arm&lt;-<span class="kw">subset</span>(bcrp,bcrp<span class="op">$</span>cond<span class="op">&lt;</span><span class="dv">3</span>)
-<span class="kw">head</span>(bcrp2arm)</code></pre></div>
-<pre><code>##     physt1 cesdt1   physt3 cesdt3 negsoct1 uncomt1 disopt1 comorbid
-## 2 53.64822     10 51.18797     14        7      36      10        2
-## 3 63.84140      8 66.45392      9        6      29      15        1
-## 4 38.72757      2 45.99656      4        5      30      17       13
-## 5 55.85700      0 60.66603      1       10      32      22        1
-## 7 47.87246      4 57.97079      3        9      22      20        1
-## 8 48.59693      4 58.66519      2        9      31      16        6
-##        age wcht1 nationality marital      trext cond
-## 2 44.66256     1           1       1  0.5557208    1
-## 3 43.09925     1           1       0  0.2589759    2
-## 4 46.93498     1           1       1  0.5557208    2
-## 5 41.09514     0           1       1  0.5557208    2
-## 7 45.76044     0           1       0 -1.7742771    2
-## 8 36.84052     0           1       1  0.2589759    1</code></pre>
-<p>As we have seen, the data contain the baseline measurements (t1) and the 9-month follow-up measurements (t3) and the pretreatment characteristics of the patients. For more information about the data, read the bcrp help file or ask for a summary.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(bcrp2arm)</code></pre></div>
+<p>In this example we use data from a three-arm randomized controlled
+trial. The data contain information on women with early-stage breast
+cancer who were assigned randomly to different treatments. These
+treatments are a nutrition intervention, an education intervention, and
+standard care.</p>
+<p>Quint is a method for two-arm randomized controlled trials.
+Therefore, in this example we restrict ourselves to the first two
+treatments, that is, the nutrition intervention and the education
+intervention.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(bcrp)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bcrp)</span></code></pre></div>
+<pre><code>##     physt1 cesdt1   physt3 cesdt3 negsoct1 uncomt1 disopt1 comorbid      age
+## 1 37.65374     14 52.62905      4        9      28      14        6 29.48392
+## 2 53.64822     10 51.18797     14        7      36      10        2 44.66256
+## 3 63.84140      8 66.45392      9        6      29      15        1 43.09925
+## 4 38.72757      2 45.99656      4        5      30      17       13 46.93498
+## 5 55.85700      0 60.66603      1       10      32      22        1 41.09514
+## 6 53.06922      0 54.83928      0        8      24      21        3 44.44627
+##   wcht1 nationality marital     trext cond
+## 1     1           1       0 0.2589759    3
+## 2     1           1       1 0.5557208    1
+## 3     1           1       0 0.2589759    2
+## 4     1           1       1 0.5557208    2
+## 5     0           1       1 0.5557208    2
+## 6     1           1       1 0.2589759    3</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bcrp2arm<span class="ot">&lt;-</span><span class="fu">subset</span>(bcrp,bcrp<span class="sc">$</span>cond<span class="sc">&lt;</span><span class="dv">3</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bcrp2arm)</span></code></pre></div>
+<pre><code>##     physt1 cesdt1   physt3 cesdt3 negsoct1 uncomt1 disopt1 comorbid      age
+## 2 53.64822     10 51.18797     14        7      36      10        2 44.66256
+## 3 63.84140      8 66.45392      9        6      29      15        1 43.09925
+## 4 38.72757      2 45.99656      4        5      30      17       13 46.93498
+## 5 55.85700      0 60.66603      1       10      32      22        1 41.09514
+## 7 47.87246      4 57.97079      3        9      22      20        1 45.76044
+## 8 48.59693      4 58.66519      2        9      31      16        6 36.84052
+##   wcht1 nationality marital      trext cond
+## 2     1           1       1  0.5557208    1
+## 3     1           1       0  0.2589759    2
+## 4     1           1       1  0.5557208    2
+## 5     0           1       1  0.5557208    2
+## 7     0           1       0 -1.7742771    2
+## 8     0           1       1  0.2589759    1</code></pre>
+<p>As we have seen, the data contain the baseline measurements (t1) and
+the 9-month follow-up measurements (t3) and the pretreatment
+characteristics of the patients. For more information about the data,
+read the bcrp help file or ask for a summary.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bcrp2arm)</span></code></pre></div>
 <pre><code>##      physt1          cesdt1           physt3          cesdt3      
 ##  Min.   :24.05   Min.   : 0.000   Min.   :24.64   Min.   : 0.000  
 ##  1st Qu.:44.45   1st Qu.: 2.000   1st Qu.:51.20   1st Qu.: 1.000  
@@ -151,7 +407,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ##  Mean   :49.52   Mean   : 6.417   Mean   :54.47   Mean   : 4.716  
 ##  3rd Qu.:56.31   3rd Qu.:10.000   3rd Qu.:58.64   3rd Qu.: 7.000  
 ##  Max.   :67.40   Max.   :24.000   Max.   :67.43   Max.   :21.000  
-##                                   NA's   :20      NA's   :20      
+##                                   NA&#39;s   :20      NA&#39;s   :20      
 ##     negsoct1         uncomt1         disopt1         comorbid     
 ##  Min.   : 5.000   Min.   :15.00   Min.   : 5.00   Min.   : 0.000  
 ##  1st Qu.: 6.000   1st Qu.:26.00   1st Qu.:15.00   1st Qu.: 0.000  
@@ -176,14 +432,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ##  3rd Qu.: 0.55572   3rd Qu.:2.000  
 ##  Max.   : 2.58897   Max.   :2.000  
 ## </code></pre>
-<p>Once we have the data, we need to set up the control parameters of the algorithm of quint. In this case, we use the default values for the following arguments: minimal sample size of patients assigned to treatment 1 and treatment 2 in each leaf (10% of the sample size of each treatment), the weights, and the minimum absolute standarized mean outcome difference (dmin = 0.3).</p>
-<p>On the other hand, we set the type of treatment outcome difference used in the partitioning criterion to difference in treatment means, the maximum number of leaves to 5 and we decided to perform the bias-corrected bootstrap procedure using 10 bootstrap samples (the default number is 25).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control1 &lt;-<span class="st"> </span><span class="kw">quint.control</span>(<span class="dt">crit=</span><span class="st">&quot;dm&quot;</span>,<span class="dt">maxl =</span> <span class="dv">5</span>,<span class="dt">B =</span> <span class="dv">10</span>)</code></pre></div>
-<p>Also, we need to define the formula to be used in quint. This formula should contain first the outcome variable (in this example the difference between the outcome measure at the baseline and at the 9-month follow-up). Next to it, the variable indicating the treatment, and finally the pretreatment characteristics.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">formula1&lt;-<span class="st"> </span><span class="kw">I</span>(cesdt1<span class="op">-</span>cesdt3) <span class="op">~</span><span class="st"> </span>cond <span class="op">|</span><span class="st"> </span>nationality<span class="op">+</span>marital<span class="op">+</span>wcht1<span class="op">+</span><span class="st">  </span>age<span class="op">+</span>trext<span class="op">+</span>comorbid<span class="op">+</span>disopt1<span class="op">+</span>uncomt1<span class="op">+</span>negsoct1</code></pre></div>
+<p>Once we have the data, we need to set up the control parameters of
+the algorithm of quint. In this case, we use the default values for the
+following arguments: minimal sample size of patients assigned to
+treatment 1 and treatment 2 in each leaf (10% of the sample size of each
+treatment), the weights, and the minimum absolute standarized mean
+outcome difference (dmin = 0.3).</p>
+<p>On the other hand, we set the type of treatment outcome difference
+used in the partitioning criterion to difference in treatment means, the
+maximum number of leaves to 5 and we decided to perform the
+bias-corrected bootstrap procedure using 10 bootstrap samples (the
+default number is 25).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>control1 <span class="ot">&lt;-</span> <span class="fu">quint.control</span>(<span class="at">crit=</span><span class="st">&quot;dm&quot;</span>,<span class="at">maxl =</span> <span class="dv">5</span>,<span class="at">B =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p>Also, we need to define the formula to be used in quint. This formula
+should contain first the outcome variable (in this example the
+difference between the outcome measure at the baseline and at the
+9-month follow-up). Next to it, the variable indicating the treatment,
+and finally the pretreatment characteristics.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>formula1<span class="ot">&lt;-</span> <span class="fu">I</span>(cesdt1<span class="sc">-</span>cesdt3) <span class="sc">~</span> cond <span class="sc">|</span> nationality<span class="sc">+</span>marital<span class="sc">+</span>wcht1<span class="sc">+</span>  age<span class="sc">+</span>trext<span class="sc">+</span>comorbid<span class="sc">+</span>disopt1<span class="sc">+</span>uncomt1<span class="sc">+</span>negsoct1</span></code></pre></div>
 <p>Now, we are ready to perform <strong>quint</strong>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2</span>)
-quint1&lt;-<span class="kw">quint</span>(formula1, <span class="dt">data=</span> bcrp2arm, <span class="dt">control=</span>control1 )</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>quint1<span class="ot">&lt;-</span><span class="fu">quint</span>(formula1, <span class="at">data=</span> bcrp2arm, <span class="at">control=</span>control1 )</span></code></pre></div>
 <pre><code>## Treatment variable (T) equals 1 corresponds to cond = 1 
 ## Treatment variable (T) equals 2 corresponds to cond = 2 
 ## The sample size in the analysis is 148 
@@ -238,8 +507,10 @@ quint1&lt;-<span class="kw">quint</span>(formula1, <span class="dt">data=</span>
 ## Bootstrap sample  8 
 ## Bootstrap sample  9 
 ## Bootstrap sample  10</code></pre>
-<p>After growing the binary tree using quint, we need to <strong>prune</strong> the tree. This is done using the <strong>prune</strong> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quint1pr &lt;-<span class="st"> </span><span class="kw">prune</span>(quint1)</code></pre></div>
+<p>After growing the binary tree using quint, we need to
+<strong>prune</strong> the tree. This is done using the
+<strong>prune</strong> function.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>quint1pr <span class="ot">&lt;-</span> <span class="fu">prune</span>(quint1)</span></code></pre></div>
 <pre><code>## The sample size in the analysis is 148 
 ## split 1 
 ## #leaves is 2 
@@ -249,8 +520,12 @@ quint1&lt;-<span class="kw">quint</span>(formula1, <span class="dt">data=</span>
 ## current value of C 3.481599 
 ## split 3 
 ## #leaves is 4</code></pre>
-<p>Here, if you consider that the standard errors of the mean difference are very small (and therefore the CI), then we should use the function <strong>quint.bootstrapCI</strong>, which estimates the confidence intervals of the mean difference (up to version 2.1.0 it does not work with effects sizes) in each leaf using a bootstrap-based algorithm.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quint1pr_bootCI &lt;-<span class="st"> </span><span class="kw">quint.bootstrapCI</span>(quint1pr,<span class="dt">n_boot =</span> <span class="dv">5</span>)</code></pre></div>
+<p>Here, if you consider that the standard errors of the mean difference
+are very small (and therefore the CI), then we should use the function
+<strong>quint.bootstrapCI</strong>, which estimates the confidence
+intervals of the mean difference (up to version 2.1.0 it does not work
+with effects sizes) in each leaf using a bootstrap-based algorithm.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>quint1pr_bootCI <span class="ot">&lt;-</span> <span class="fu">quint.bootstrapCI</span>(quint1pr,<span class="at">n_boot =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## Treatment variable (T) equals 1 corresponds to cond = 1 
 ## Treatment variable (T) equals 2 corresponds to cond = 2 
 ## The sample size in the analysis is 148 
@@ -489,8 +764,9 @@ quint1&lt;-<span class="kw">quint</span>(formula1, <span class="dt">data=</span>
 ## current value of C 3.819557 
 ## split 3 
 ## #leaves is 4</code></pre>
-<p>To obtain the most interesting information about the results of the method we should use the <strong>summary</strong> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(quint1pr)  <span class="co">#without bootstrap-based confidence intervals </span></code></pre></div>
+<p>To obtain the most interesting information about the results of the
+method we should use the <strong>summary</strong> function.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(quint1pr)  <span class="co">#without bootstrap-based confidence intervals </span></span></code></pre></div>
 <pre><code>## Partitioning criterion: Difference in treatment means criterion 
 ##  
 ## Fit information: 
@@ -513,7 +789,7 @@ quint1&lt;-<span class="kw">quint</span>(formula1, <span class="dt">data=</span>
 ## Leaf 2     35      3.23   5.76     32      1.03   5.49  2.20 1.38     3
 ## Leaf 3     13      5.08   6.76      7     -6.00   4.04 11.08 2.81     1
 ## Leaf 4     19     -0.32   4.41     24      1.25   2.69 -1.57 1.09     2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(quint1pr_bootCI<span class="op">$</span>tree) <span class="co">#with bootstrap-based confidence intervals </span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(quint1pr_bootCI<span class="sc">$</span>tree) <span class="co">#with bootstrap-based confidence intervals </span></span></code></pre></div>
 <pre><code>## Partitioning criterion: Difference in treatment means criterion 
 ##  
 ## Fit information: 
@@ -536,15 +812,31 @@ quint1&lt;-<span class="kw">quint</span>(formula1, <span class="dt">data=</span>
 ## Leaf 2     35      3.23   5.76     32      1.03   5.49  2.20 2.37     3
 ## Leaf 3     13      5.08   6.76      7     -6.00   4.04 11.08 3.09     1
 ## Leaf 4     19     -0.32   4.41     24      1.25   2.69 -1.57 1.21     2</code></pre>
-<p>Another form of obtaining information about the solution is to <strong>plot</strong> the pruned tree.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(quint1pr) <span class="co">#without bootstrap-based confidence intervals </span></code></pre></div>
+<p>Another form of obtaining information about the solution is to
+<strong>plot</strong> the pruned tree.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(quint1pr) <span class="co">#without bootstrap-based confidence intervals </span></span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(quint1pr_bootCI<span class="op">$</span>tree) <span class="co">#with bootstrap-based confidence intervals </span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(quint1pr_bootCI<span class="sc">$</span>tree) <span class="co">#with bootstrap-based confidence intervals </span></span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<p>With these results we can conclude that the first treatment (nutrition) works better than the second treatment (education) for patients with dispositional optimism at baseline (disopt1) below or equal to 18.5, negative social interaction at baseline (negsoct1) greater than 5.5 and unmitigated communion at baseline (uncomt1) greater than 34.5. Treatment 2 (education) works better for patients with disopt1 greater than 18.5, and patients with disopt1 less or equal than 18.5 and negsoct1 less or equal than 5.5. The rest of the patients could be assigned to any of the two treatments as the treatment effect does not differ for them according to quint. We can observe the different standard errors for the two methods, as the confidence intervals computed using bootstrap are larger.</p>
-<p><em>The results might be slightly different for R versions below 3.6.0.</em></p>
+<p>With these results we can conclude that the first treatment
+(nutrition) works better than the second treatment (education) for
+patients with dispositional optimism at baseline (disopt1) below or
+equal to 18.5, negative social interaction at baseline (negsoct1)
+greater than 5.5 and unmitigated communion at baseline (uncomt1) greater
+than 34.5. Treatment 2 (education) works better for patients with
+disopt1 greater than 18.5, and patients with disopt1 less or equal than
+18.5 and negsoct1 less or equal than 5.5. The rest of the patients could
+be assigned to any of the two treatments as the treatment effect does
+not differ for them according to quint. We can observe the different
+standard errors for the two methods, as the confidence intervals
+computed using bootstrap are larger.</p>
+<p><em>The results might be slightly different for R versions below
+3.6.0.</em></p>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

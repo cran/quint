@@ -1,3 +1,16 @@
+Changes in QUINT Version 2.2-2 (2022-07-01)
+========================================
+* DESCRIPTION is updated.
+
+
+Changes in QUINT Version 2.2-1 (2022-07-01)
+========================================
+* New function determineSplits2(). It determines the number of possible splits based on the original categorical variable.
+* predict.quint() is modified to include the new changes of determineSplits2().
+* nodeinfo() is modified to solve a bug in predict.quint().
+* help files are modified to include warnings for the users.
+* Vignettes about the use of the package are included.
+
 Changes in QUINT Version 2.1-0 (2020-6-12)
 ========================================
 * New function quint.bootstrapCI(). It computes the confidence interval of the difference between treatments in each leaf using a bootstrap procedure.

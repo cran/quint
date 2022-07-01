@@ -19,7 +19,8 @@
 #'   If the data are in the order \code{Y, T, X1,\dots, XJ}, no formula is needed.
 #'   The lay-out of this formula is based on Zeileis & Croissant (2010).
 #' @param data a dataframe containing the variables in the model. The treatment variable can be
-#'   a numeric or a factor variable with two values (or levels).
+#'   a numeric or a factor variable with two values (or levels). WARNING: The names of your
+#'   variables should not include commas. Otherwise, \code{\link{plot.quint}} will not work correctly.
 #' @param control a list with control parameters as returned by \code{\link{quint.control}}.
 #'
 #' @details The method QUINT uses a sequential partitioning algorithm. The algorithm

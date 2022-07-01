@@ -1,0 +1,127 @@
+---
+title: "Dusseldorp et al., 2016 QUINT Replication"
+author: "Elise Dusseldorp"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Dusseldorp et al., 2016 QUINT Replication}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Loading package and data
+
+```{r, echo=FALSE,include=FALSE, results='hide'}
+library(quint)
+data(bcrp)
+```
+
+# Check that data aligns
+```{r}
+bcrp[1:3, c(1:6,14)]
+ex_data <- subset(bcrp, cond < 3)
+```
+# Formulas for QUINT commands
+
+In the previous version there were two mistakes in formula 2 here (one mistake was the physt3 - physt3 and the other one is a typo from the paper: it should be physt1 as predictor instead of cesdt1). This typo however gave in this case the same result as using physt1. 
+
+```{r}
+formula1 <- I(cesdt1-cesdt3)~cond|cesdt1+negsoct1+uncomt1+disopt1+comorbid+age+wcht1+nationality+marital+trext
+
+#Old formula2 <- I(physt3-physt3)~cond|cesdt1+negsoct1+uncomt1+disopt1+comorbid+age+wcht1+nationality+marital+trext
+##New formula 2
+formula2 <- I(physt3-physt1)~cond|physt1+negsoct1+uncomt1+disopt1+comorbid+age+wcht1+nationality+marital+trext
+
+```
+
+# Quint model for cesdt difference (replicates)
+
+When you choose a different seed (see below) the result is the same as in the BRM article. In R version 4 the random number generator has been changed. This might give you the feeling that  results are depending on the seed, and thus unstable. The stability of the solution can be improved when we increase the number of bootstrap samples (see below the example with control6)
+```{r, message = FALSE, warning = FALSE, results='hide'}
+set.seed(4717) 
+quint1 <- quint(formula1, data = ex_data)
+```
+
+```{r}
+summary(quint1)
+quint1$fi
+quint1$si
+quint1$li
+```
+
+## Pruning 
+```{r}
+quint1pr <- prune(quint1)
+plot(quint1pr)
+```
+ Result of pruning is the same as Figure 1 in paper
+
+
+
+# Quint model for physt difference 
+
+```{r, message = FALSE, results='hide'}
+set.seed(48) #note that this is again a different random number due to R version 4 and higher
+quint2 <- quint(formula = formula2, data = ex_data)
+```
+
+Pruning gives the same result as in the paper.
+```{r}
+quint2$fi
+quint2pr <- prune(quint2) 
+plot(quint2pr)
+```
+
+
+# Using different tuning parameters
+
+## Changing Criterion
+
+Using the new formula2 this works
+```{r, message = FALSE}
+control3 <- quint.control(crit = "dm")
+set.seed(48)
+quint3 <- quint(formula = formula2, data = ex_data, control = control3)
+```
+
+## Changing Max Leaves (Replicates)
+
+```{r, message = FALSE}
+control4 <- quint.control(maxl = 2)
+set.seed(48)
+quint4 <- quint(formula = formula1, data = ex_data, control = control4)
+round(quint4$li, digits = 2)
+```
+
+## Changing minimum effect size for split
+
+In version 2, we check the value of dmin after the pruning (thus not after the first split when growing the tree). The advantage is that we also allow trees with 3 or more splits that satisfy the dmin criteria (if we only check after one split we might miss a valuable qualitative interaction further down the tree). For this example, the final result here is the same: the tree is pruned back to the root node. It means that there is no qualitative interaction with a minimum effect size of 0.40 in one of the leaves assigned to P1 and -0.40 in one of the leaves assigned to P2. 
+
+```{r, message = FALSE, results='hide'}
+control5 <- quint.control(crit = "dm", dmin = 0.40)
+set.seed(48)
+quint5 <- quint(formula = formula2 , data = ex_data, control = control5)
+```
+
+```{r}
+quint5pr <- prune(quint5)
+quint5pr$li
+```
+
+## Changing number of bootstraps to 50 
+
+Now we use the original seed of the paper (47) and increase the number of bootstrap samples to obtain more stable results. The default number of B = 25 was chosen to speed up the computations and based on the paper by LeBlanc, M., \& Crowley, J. (1993).
+
+```{r, message = FALSE, results='hide'}
+set.seed(47) #this is the original seed of the first example in the paper
+control6 <- quint.control(B = 50) #now we choose 50 bootstrap samples
+quint6 <- quint(formula = formula1 , data = ex_data, control = control6)
+```
+
+This results again in the same Figure 1 as in the paper:
+
+```{r}
+quint6$fi
+quint6pr <- prune(quint6)
+plot(quint6pr)
+```

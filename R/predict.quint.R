@@ -59,8 +59,8 @@ predict.quint<-function(object,newdata,type='class',...){
 
     if(type=="matrix") {
       nodemat <- matrix(0, nrow=dim(newdata)[1], ncol=2)
-        nodemat[,1] <- rep(1,dim(newdata)[1])
-        nodemat[,2] <- rep(1,dim(newdata)[1])
+      nodemat[,1] <- rep(1,dim(newdata)[1])
+      nodemat[,2] <- rep(1,dim(newdata)[1])
 
       if(nmis!= 0){
         nodemat[naindex,c(1:2)] <- NA
@@ -80,70 +80,73 @@ predict.quint<-function(object,newdata,type='class',...){
     }
 
   }else{
-  nsplit<-dim(object$si)[1]
-  form<-as.formula(paste(names(object$data)[1],"~",paste(c(object$si[1:nsplit,3]),collapse="+" )))
-  ytxna <- model.frame(form, data=newdata, na.action=NULL)
-  ytx<-model.frame(form,data=newdata) # NA omitted data frame required for procedure
-  y<-as.matrix(ytx[,1])
-  root<-rep(1,dim(ytx)[1]);
-  # Gmat<-makeGchmat(root,ytx[,object$si[1,3]],object$si[1,4])
-  if(is.factor(ytx[,object$si[1,3]])==F){
-    Gmat <- makeGchmat(gm=root, varx=ytx[,object$si[1,3]], splitpoint=object$si[1,4])  }
-  if(is.factor(ytx[,object$si[1,3]])==T){
-    possibleSplits <- determineSplits(x=ytx[,object$si[1,3]], gm=root)
-    assigMatrix <- makeCatmat(x=ytx[,object$si[1,3]], gm=root, z=possibleSplits[[1]], splits=possibleSplits[[2]])
-    Gmat <- makeGchmatcat(gm=root, splitpoint=object$si[1,4], assigMatrix=assigMatrix)  }
-
-  nnum<-c(2,3)
-  if (nsplit>1){
-    for (i in 2:nsplit){
-      o<-which(nnum==object$si[i,1])
-      #Gmatch<-makeGchmat(Gmat[,o],ytx[,object$si[i,3]],object$si[i,4])
-      if(is.factor(ytx[,object$si[i,3]])==F){
-        Gmatch <- makeGchmat(gm=Gmat[,o], varx=ytx[,object$si[i,3]], splitpoint=object$si[i,4])  }
-      if(is.factor(ytx[,object$si[i,3]])==T){
-        possibleSplits <- determineSplits(x=ytx[,object$si[i,3]], gm=Gmat[,o])
-        assigMatrix <- makeCatmat(x=ytx[,object$si[i,3]], gm=Gmat[,o], z=possibleSplits[[1]], splits=possibleSplits[[2]])
-        Gmatch <- makeGchmatcat(gm=Gmat[,o], splitpoint=object$si[i,4], assigMatrix=assigMatrix)  }
-
-      nnum<-c(nnum[-o],object$si[i,1]*2,object$si[i,1]*2+1)
-      Gmat<-cbind(Gmat[,-o],Gmatch)
+    nsplit<-dim(object$si)[1]
+    form<-as.formula(paste(names(object$data)[1],"~",paste(c(object$si[1:nsplit,3]),collapse="+" )))
+    ytxna <- model.frame(form, data=newdata, na.action=NULL)
+    ytx<-model.frame(form,data=newdata) # NA omitted data frame required for procedure
+    y<-as.matrix(ytx[,1])
+    root<-rep(1,dim(ytx)[1]);
+    # Gmat<-makeGchmat(root,ytx[,object$si[1,3]],object$si[1,4])
+    if(is.factor(ytx[,object$si[1,3]])==F){
+      Gmat <- makeGchmat(gm=root, varx=ytx[,object$si[1,3]], splitpoint=object$si[1,4])
     }
-  }
-  #check number of missings
-  nmis<-sum(is.na(ytxna))
-  index <- c(1:dim(ytxna)[1])
-  if(nmis!= 0){
-  naindex <- which(is.na(ytxna)) # which subjects have NA on required variables
-  index <- c(1:dim(ytxna)[1])[-naindex] # which subjects have no NA on required variables
-  }
+    if(is.factor(ytx[,object$si[1,3]])==T){
+      possibleSplits <- determineSplits(x=ytx[,object$si[1,3]], gm=root)
+      assigMatrix <- makeCatmat(x=ytx[,object$si[1,3]], gm=root, z=possibleSplits[[1]], splits=possibleSplits[[2]])
+      Gmat <- makeGchmatcat(gm=root, splitpoint=object$si[1,4], assigMatrix=assigMatrix)  }
 
-  if(type=="matrix") {
-    nodemat <- matrix(0, nrow=dim(newdata)[1], ncol=2)
-    for(i in 1:length(nnum)){
-      nodemat[index[which(Gmat[,i]==1)],1] <- which(object$li[,1]==nnum[i])
-      nodemat[index[which(Gmat[,i]==1)],2] <- nnum[i]
+    nnum<-c(2,3)
+    if (nsplit>1){
+      for (i in 2:nsplit){
+        o<-which(nnum==object$si[i,1])
+        #Gmatch<-makeGchmat(Gmat[,o],ytx[,object$si[i,3]],object$si[i,4])
+        if(is.factor(ytx[,object$si[i,3]])==F){
+          Gmatch <- makeGchmat(gm=Gmat[,o], varx=ytx[,object$si[i,3]], splitpoint=object$si[i,4])
+        }
+        if(is.factor(ytx[,object$si[i,3]])==T){
+          possibleSplits <- determineSplits2(x=object$data[,object$si[i,3]]) #new
+          assigMatrix <- makeCatmat(x=ytx[,object$si[i,3]], gm=Gmat[,o], z=possibleSplits[[1]], splits=possibleSplits[[2]])
+          Gmatch <- makeGchmatcat(gm=Gmat[,o], splitpoint=object$si[i,4], assigMatrix=assigMatrix)
+        }
+
+        nnum<-c(nnum[-o],object$si[i,1]*2,object$si[i,1]*2+1)
+        Gmat<-cbind(Gmat[,-o],Gmatch)
+      }
     }
+    #check number of missings
+    nmis<-sum(is.na(ytxna))
+    index <- c(1:dim(ytxna)[1])
     if(nmis!= 0){
-    nodemat[naindex,c(1:2)] <- NA
+      naindex <- which(is.na(ytxna)) # which subjects have NA on required variables
+      index <- c(1:dim(ytxna)[1])[-naindex] # which subjects have no NA on required variables
     }
-    colnames(nodemat) <- c("Leaf", "Node")
-    #rownames(nodemat) <- as.numeric(rownames(ytxna)) # give subjects numbers of original dataset
-    return(nodemat)
-  }
 
-  if(type=="class"){
-    classmat <- numeric(dim(newdata)[1])
-       for(i in 1:length(nnum)) {
-      classmat[index[which(Gmat[,i]==1)]] <- object$li[which(nnum[i]==object$li[,1]),10]
+    if(type=="matrix") {
+      nodemat <- matrix(0, nrow=dim(newdata)[1], ncol=2)
+      for(i in 1:length(nnum)){
+        nodemat[index[which(Gmat[,i]==1)],1] <- which(object$li[,1]==nnum[i])
+        nodemat[index[which(Gmat[,i]==1)],2] <- nnum[i]
+      }
+      if(nmis!= 0){
+        nodemat[naindex,c(1:2)] <- NA
+      }
+      colnames(nodemat) <- c("Leaf", "Node")
+      #rownames(nodemat) <- as.numeric(rownames(ytxna)) # give subjects numbers of original dataset
+      return(nodemat)
     }
-    if(nmis!= 0){
-    classmat[naindex] <- NA
+
+    if(type=="class"){
+      classmat <- numeric(dim(newdata)[1])
+      for(i in 1:length(nnum)) {
+        classmat[index[which(Gmat[,i]==1)]] <- object$li[which(nnum[i]==object$li[,1]),10]
+      }
+      if(nmis!= 0){
+        classmat[naindex] <- NA
+      }
+      names(classmat) <- 1:dim(newdata)[1]
+      #names(classmat) <- as.numeric(rownames(ytxna)) # give subjects numbers of original dataset (alternative to 1:dim(newdat)[1])
+      return(classmat)
     }
-    names(classmat) <- 1:dim(newdata)[1]
-    #names(classmat) <- as.numeric(rownames(ytxna)) # give subjects numbers of original dataset (alternative to 1:dim(newdat)[1])
-    return(classmat)
-  }
   }
 }
 

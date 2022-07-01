@@ -23,7 +23,7 @@ indexID <- function(nodeID, quint.out) {
 
 ## conversion function ##
 to.party <- function(nodeID,quint.out, ...){
-  if(class(nodeID)=="quint"){quint.out <- nodeID; nodeID <- 1L}
+  if(inherits(nodeID,"quint")){quint.out <- nodeID; nodeID <- 1L}#class(nodeID)=="quint"
   if(is.null(quint.out$var.names)) quint.out$var.names <- colnames(quint.out$data)
   if(nodeID %in% quint.out$li[,1]) return(partynode(id=as.integer(nodeID),
                                                     info = quint.out$li[quint.out$li[,1]==nodeID,]
